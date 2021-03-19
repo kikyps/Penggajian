@@ -14,6 +14,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/signup_back_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_arrow_back_ios_24"/>
@@ -54,12 +55,14 @@
                     android:text="@string/male_gender"
                     android:layout_weight="1"
                     android:textSize="20dp"
+                    android:textColor="@color/black"
                     android:fontFamily="@font/muli_black"/>
 
                 <RadioButton
                     android:id="@+id/male"
                     android:layout_width="0dp"
                     android:textSize="20dp"
+                    android:textColor="@color/black"
                     android:layout_height="wrap_content"
                     android:text="@string/famale_gender"
                     android:layout_weight="1"
