@@ -14,8 +14,7 @@ import com.kp.penggajian.R;
 
 public class RetailerActivity extends AppCompatActivity {
 
-    private long backPressedTime;
-    private Toast backToast;
+    boolean doubleBackToExitPressedOnce;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +27,7 @@ public class RetailerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
+                RetailerActivity.this.finish();
             }
         });
 
@@ -37,23 +37,25 @@ public class RetailerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
                 startActivity(intent);
+                RetailerActivity.this.finish();
             }
         });
     }
 
     @Override
     public void onBackPressed() {
-        backToast.cancel();
-        super.onBackPressed();
-
-        if (backPressedTime + 5000 > System.currentTimeMillis()){
+        if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             return;
-        } else {
-            backToast = Toast.makeText(getApplicationContext(), getApplicationContext().getResources().getString(R.string.press_exit), Toast.LENGTH_SHORT);
-            backToast.show();
         }
 
-        backPressedTime = System.currentTimeMillis();
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, getString(R.string.press_exit), Toast.LENGTH_SHORT).show();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce = false;
+            }
+        }, 2000);
     }
 }

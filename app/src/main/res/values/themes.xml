@@ -9,6 +9,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="MyDatePicker" >
+        <!-- Text color -->
+        <item name="android:textColorPrimary">@color/black</item>
+        <!-- Divider color -->
+        <item name="colorControlNormal">@color/black</item>
+    </style>
+
     <style name="AppTheme.noActionBar" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
