@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Penggajian</string>
+    <string name="login_retail">Login</string>
+    <string name="signgup_retail">Sign Up</string>
+    <string name="welcome">Welcome!</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="forget_password">Forget Password!</string>
+    <string name="create_account">Create Account</string>
+    <string name="email">Email</string>
+    <string name="next">Next</string>
+    <string name="choose_gender">Choose Gender</string>
+    <string name="male_gender">Male</string>
+    <string name="famale_gender">Famale</string>
+    <string name="your_age">Select your age</string>
+    <string name="press_exit">Press back again to exit</string>
+</resources>
