@@ -46,6 +46,7 @@ public class RetailerActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
+            finishAffinity();
             return;
         }
 

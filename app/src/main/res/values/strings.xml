@@ -15,4 +15,9 @@
     <string name="your_age">Select your age</string>
     <string name="press_exit">Press back again to exit</string>
     <string name="phone_number">Phone Number</string>
+    <string name="empty_field">Field cannot be empty</string>
+    <string name="username_to_large">Username is too large!</string>
+    <string name="username_no_white_spaces">No white spaces are allowed!</string>
+    <string name="email_validate">Invalid email!</string>
+    <string name="password_validate">Password should contain 4 characters!</string>
 </resources>

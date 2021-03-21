@@ -24,7 +24,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RetailerActivity.class);
                 startActivity(intent);
-                LoginActivity.this.finish();
+                finish();
             }
         });
 
@@ -43,5 +43,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onBackPressed();
         Intent intent = new Intent(getApplicationContext(), RetailerActivity.class);
         startActivity(intent);
+        finish();
     }
 }
