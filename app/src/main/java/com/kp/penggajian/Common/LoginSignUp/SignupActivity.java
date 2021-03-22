@@ -99,19 +99,19 @@ public class SignupActivity extends AppCompatActivity {
     private boolean validatePassword(){
         String val = passwordValid.getEditText().getText().toString().trim();
         String checkPassword = "^" +
-                //"(?=.*[0-9])" +          //at least 1 digit
+                "(?=.*[0-9])" +          //at least 1 digit
                 //"(?=.*[a-z])" +          //at least 1 lower case letter
                 //"(?=.*[A-Z])" +          //at least 1 upper case letter
                 "(?=.*[a-zA-Z])" +       //any letter
-                "(?=.*[@#$%^&+=-])" +    //at least 1 special character
+                //"(?=.*[@#$%^&+=-])" +    //at least 1 special character
                 "(?=\\S+$)" +            //no white spaces
-                ".{4,}" +                //at least 4 characters
+                //".{4,}" +                //at least 4 characters
                 "$";
 
         if (val.isEmpty()){
             passwordValid.setError(getString(R.string.empty_field));
             return false;
-        } else if (!val.matches(checkPassword)){
+        } else if (val.matches(checkPassword)){
             passwordValid.setError(getString(R.string.password_validate));
             return false;
         } else {

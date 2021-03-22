@@ -19,5 +19,5 @@
     <string name="username_to_large">Username is too large!</string>
     <string name="username_no_white_spaces">No white spaces are allowed!</string>
     <string name="email_validate">Invalid email!</string>
-    <string name="password_validate">Password should contain 4 characters!</string>
+    <string name="password_validate">The password must have 1 or more numbers ex:(yourname12)</string>
 </resources>
