@@ -81,7 +81,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private boolean validateEmail(){
         String val = emailValid.getEditText().getText().toString().trim();
-        String email = "[a-zA-Z0-9._-]+@[a-z]+\\\\.+[a-z]+";  //email validate
+        String email = "[a-zA-Z0-9._-]+@[a-z]+\\.[a-z]+";  //email validate
 
         if (val.isEmpty()){
             emailValid.setError(getString(R.string.empty_field));
