@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "493648274278",
+    "firebase_url": "https://pdam-62066-default-rtdb.firebaseio.com",
+    "project_id": "pdam-62066",
+    "storage_bucket": "pdam-62066.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:493648274278:android:f3c567f17b634d0cd8dea7",
+        "android_client_info": {
+          "package_name": "com.kp.penggajian"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "493648274278-3ighc5hqn6h7d21kkudmgiddhlle4rqn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAExjthr32-SS8qvINP7SABpo85cPG6ssE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "493648274278-3ighc5hqn6h7d21kkudmgiddhlle4rqn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
