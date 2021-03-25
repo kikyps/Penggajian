@@ -35,6 +35,7 @@
             android:layout_marginTop="80dp">
 
             <com.hbb20.CountryCodePicker
+                android:id="@+id/id_number"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:gravity="center"

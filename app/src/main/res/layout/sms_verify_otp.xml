@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Common.LoginSignUp.VerifyOTP"
+    tools:context=".Common.LoginSignUp.SmsVerifyOTP"
     android:padding="30dp"
     android:background="@color/white">
 
@@ -39,14 +39,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/description_otp_email"
-            android:layout_gravity="center"
             android:textAlignment="center"
+            android:text="@string/description_otp_phone"
+            android:layout_gravity="center"
             android:fontFamily="@font/muli_black"
             android:layout_marginTop="50dp"
             android:textColor="@color/black"/>
         <TextView
-            android:id="@+id/getour_email"
+            android:id="@+id/getour_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -80,12 +80,12 @@
             android:textColor="@color/white"/>
 
         <Button
-            android:id="@+id/send_number"
+            android:id="@+id/change_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:text="@string/send_sms"
+            android:text="@string/change_number"
             android:background="@android:color/transparent"
             android:textColor="@color/black"/>
 

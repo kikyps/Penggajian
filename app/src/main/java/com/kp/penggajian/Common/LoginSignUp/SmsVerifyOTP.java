@@ -4,42 +4,44 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Telephony;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.hbb20.CountryCodePicker;
 import com.kp.penggajian.R;
 
-public class VerifyOTP extends AppCompatActivity {
+public class SmsVerifyOTP extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.verify_otp);
+        setContentView(R.layout.sms_verify_otp);
 
-        TextView email = findViewById(R.id.getour_email);
+        TextView number = findViewById(R.id.getour_number);
 
-        String putemail = SignupActivity.getEmail;
+        String putIdnumber = SignupActivity3.getNumber;
+        String putNumber = SignupActivity3.getIdNumber;
 
-        email.setText(putemail);
+
+        number.setText(putIdnumber+putNumber);
 
         ImageView back = (ImageView) findViewById(R.id.signup_back_button);
         back.setClickable(true);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
 
-        Button sendsms = findViewById(R.id.send_number);
-        sendsms.setOnClickListener(new View.OnClickListener() {
+        Button chgnumber = findViewById(R.id.change_number);
+        chgnumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), SmsVerifyOTP.class);
+                Intent intent = new Intent(getApplicationContext(), SignupActivity3.class);
                 startActivity(intent);
                 finish();
             }

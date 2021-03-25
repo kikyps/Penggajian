@@ -9,11 +9,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.google.android.material.textfield.TextInputLayout;
+import com.hbb20.CountryCodePicker;
 import com.kp.penggajian.R;
 
 public class SignupActivity3 extends AppCompatActivity {
 
+    public static String getNumber;
+    public static String getIdNumber;
+
     TextInputLayout numberSign;
+    CountryCodePicker cpp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +26,7 @@ public class SignupActivity3 extends AppCompatActivity {
         setContentView(R.layout.activity_signup3);
 
         numberSign = findViewById(R.id.sign_number);
+        cpp = (CountryCodePicker) findViewById(R.id.id_number);
 
         Button signnow = findViewById(R.id.sign_now);
         signnow.setOnClickListener(new View.OnClickListener() {
@@ -29,6 +35,10 @@ public class SignupActivity3 extends AppCompatActivity {
                 if (!numberValidate()){
                     return;
                 } else {
+                    getNumber = numberSign.getEditText().getText().toString();
+
+                    getIdNumber = cpp.getSelectedCountryCodeWithPlus();
+
                     Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
                     startActivity(intent);
                 }
