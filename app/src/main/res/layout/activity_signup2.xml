@@ -44,6 +44,7 @@
                 android:fontFamily="@font/muli_black"/>
 
             <RadioGroup
+                android:id="@+id/radio_groub"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
@@ -85,6 +86,7 @@
                 android:fontFamily="@font/muli_black"/>
 
             <DatePicker
+                android:id="@+id/date_picker"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:datePickerMode="spinner"

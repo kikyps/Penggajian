@@ -13,6 +13,8 @@ import com.kp.penggajian.R;
 
 public class SignupActivity extends AppCompatActivity {
 
+    public static String getEmail;
+
     TextInputLayout usernameValid, emailValid, passwordValid;
 
     @Override
@@ -43,6 +45,8 @@ public class SignupActivity extends AppCompatActivity {
                 if (!validateUsername() | !validateEmail() | !validatePassword()){
                     return;
                 } else {
+                    getEmail = emailValid.getEditText().getText().toString();
+
                     Intent intent = new Intent(getApplicationContext(), SignupActivity2.class);
                     startActivity(intent);
                 }
