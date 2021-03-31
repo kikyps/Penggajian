@@ -39,7 +39,7 @@ public class SignupActivity3 extends AppCompatActivity {
 
                     getIdNumber = cpp.getSelectedCountryCodeWithPlus();
 
-                    Intent intent = new Intent(getApplicationContext(), VerifyOTP.class);
+                    Intent intent = new Intent(getApplicationContext(), SmsVerifyOTP.class);
                     startActivity(intent);
                 }
             }
@@ -61,7 +61,7 @@ public class SignupActivity3 extends AppCompatActivity {
         if (val.isEmpty()){
             numberSign.setError(getString(R.string.empty_field));
             return false;
-        } else {
+        } else if (val.equals(08))else {
             numberSign.setError(null);
             numberSign.setErrorEnabled(false);
             return true;

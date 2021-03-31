@@ -15,7 +15,7 @@ public class SignupActivity extends AppCompatActivity {
 
     public static String getEmail;
 
-    TextInputLayout usernameValid, emailValid, passwordValid;
+    TextInputLayout usernameValid, emailValid, passwordValid, confirmPassword;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class SignupActivity extends AppCompatActivity {
         usernameValid = findViewById(R.id.signup_username);
         emailValid = findViewById(R.id.signup_email);
         passwordValid = findViewById(R.id.signup_password);
+        confirmPassword = findViewById(R.id.signup_retype_password);
 
         ImageView back = (ImageView) findViewById(R.id.signup_back_button);
         back.setClickable(true);
@@ -65,6 +66,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private boolean validateUsername(){
         String val = usernameValid.getEditText().getText().toString().trim();
+
         String checkspace = "\\A\\w{1,20}\\z";      //white spaces validate
 
         if (val.isEmpty()){
@@ -102,25 +104,36 @@ public class SignupActivity extends AppCompatActivity {
 
     private boolean validatePassword(){
         String val = passwordValid.getEditText().getText().toString().trim();
-        String checkPassword = "^" +
-                "(?=.*[0-9])" +          //at least 1 digit
+        String val2 = confirmPassword.getEditText().getText().toString().trim();
+
+        String checkPassword = //"^" +
+                "(.*[0-9].*)"; //+          //at least 1 digit
                 //"(?=.*[a-z])" +          //at least 1 lower case letter
                 //"(?=.*[A-Z])" +          //at least 1 upper case letter
-                "(?=.*[a-zA-Z])" +       //any letter
+                //"(?=.*[a-zA-Z])" +       //any letter
                 //"(?=.*[@#$%^&+=-])" +    //at least 1 special character
-                "(?=\\S+$)" +            //no white spaces
-                //".{4,}" +                //at least 4 characters
-                "$";
+                //"(?=\\S+$)" +            //no white spaces
+                //".{6,}" +                //at least 6 characters
+                //"$";
 
-        if (val.isEmpty()){
+        if (val.isEmpty() & val2.isEmpty()){
             passwordValid.setError(getString(R.string.empty_field));
+            confirmPassword.setError(getString(R.string.empty_field));
             return false;
-        } else if (val.matches(checkPassword)){
+        } else if (!val.matches(checkPassword)){
             passwordValid.setError(getString(R.string.password_validate));
             return false;
-        } else {
+        } else if (val.length() < 6){
+            passwordValid.setError(getString(R.string.six_password));
+            return false;
+        } else if (!val.equals(val2)){
+            confirmPassword.setError(getString(R.string.must_same));
+            return false;
+        } else  {
             passwordValid.setError(null);
             passwordValid.setErrorEnabled(false);
+            confirmPassword.setError(null);
+            confirmPassword.setErrorEnabled(false);
             return true;
         }
     }

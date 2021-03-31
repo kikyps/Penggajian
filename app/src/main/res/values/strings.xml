@@ -5,6 +5,7 @@
     <string name="welcome">Welcome!</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
+    <string name="retype_password">Confirm password</string>
     <string name="forget_password">Forget Password!</string>
     <string name="create_account">Create Account</string>
     <string name="email">Email</string>
@@ -19,7 +20,7 @@
     <string name="username_to_large">Username is too large!</string>
     <string name="username_no_white_spaces">No white spaces are allowed!</string>
     <string name="email_validate">Invalid email!</string>
-    <string name="password_validate">The password must have 1 or more numbers ex:(yourname12)</string>
+    <string name="password_validate">The password must have 1 or more numbers ex:(yourpassword12)</string>
     <string name="code">Code</string>
     <string name="verif_code">Verification</string>
     <string name="description_otp_email">Code verification has been sent to your email</string>
@@ -30,4 +31,6 @@
     <string name="verify_code_otp">Verify code</string>
     <string name="description_otp_phone">Code verification has been sent to your phone number</string>
     <string name="change_number">Change number?</string>
+    <string name="must_same">Passwords must be the same!</string>
+    <string name="six_password">password must be more than 6</string>
 </resources>
