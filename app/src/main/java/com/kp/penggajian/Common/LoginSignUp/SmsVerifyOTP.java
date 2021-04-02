@@ -24,7 +24,7 @@ public class SmsVerifyOTP extends AppCompatActivity {
         String putNumber = SignupActivity3.getIdNumber;
 
 
-        number.setText(putIdnumber+putNumber);
+        number.setText(putNumber+putIdnumber);
 
         ImageView back = (ImageView) findViewById(R.id.signup_back_button);
         back.setClickable(true);
