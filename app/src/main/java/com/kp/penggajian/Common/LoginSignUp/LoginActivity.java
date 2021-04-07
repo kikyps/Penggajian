@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.Dashboard;
 import com.kp.penggajian.MainActivity;
+import com.kp.penggajian.Preferences;
 import com.kp.penggajian.R;
 
 public class LoginActivity extends AppCompatActivity {
@@ -56,28 +57,29 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                databaseReference.child("login").addListenerForSingleValueEvent(new ValueEventListener() {
+                if (!validateUsername() | !validatePassword()) {
+                    return;
+                } else {
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                    databaseReference.child("login").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             String input1 = usernameValid.getEditText().getText().toString();
                             String input2 = passwordValid.getEditText().getText().toString();
 
-                            if (!validateUsername() | !validatePassword()) {
-                                return;
-                            } else {
-                                if (snapshot.child(input1).exists()) {
-                                    if (snapshot.child(input1).child("password").getValue(String.class).equals(input2)) {
-                                        Intent intent = new Intent(getApplicationContext(), Dashboard.class);
-                                        startActivity(intent);
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
-                                    }
+                            if (snapshot.child(input1).exists()) {
+                                if (snapshot.child(input1).child("password").getValue(String.class).equals(input2)) {
+                                    Preferences.setDataLogin(LoginActivity.this, true);
+                                    Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                                    startActivity(intent);
                                 } else {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.unknown_data), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
                                 }
+                            } else {
+                                Toast.makeText(getApplicationContext(), getString(R.string.unknown_data), Toast.LENGTH_SHORT).show();
                             }
                         }
+
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
@@ -85,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                 }
+            }
         });
     }
 
@@ -131,6 +134,11 @@ public class LoginActivity extends AppCompatActivity {
             passwordValid.setErrorEnabled(false);
             return true;
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
     }
 
     @Override
