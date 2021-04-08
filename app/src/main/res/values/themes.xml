@@ -31,4 +31,8 @@
     <style name="Theme.Penggajian.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.Penggajian.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="fabtheme" parent="Widget.Design.FloatingActionButton">
+        <item name="colorOnSecondary">@color/white</item>
+    </style>
 </resources>

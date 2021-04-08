@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.kp.penggajian.Dashboard;
 import com.kp.penggajian.MainActivity;
 import com.kp.penggajian.Preferences;
 import com.kp.penggajian.R;
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (snapshot.child(input1).exists()) {
                                 if (snapshot.child(input1).child("password").getValue(String.class).equals(input2)) {
                                     Preferences.setDataLogin(LoginActivity.this, true);
-                                    Intent intent = new Intent(getApplicationContext(), Dashboard.class);
+                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                     startActivity(intent);
                                 } else {
                                     Toast.makeText(getApplicationContext(), getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();

@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Penggajian">
         <activity
-            android:name=".Dashboard"
+            android:name=".MainActivity"
             android:label="@string/title_activity_dashboard"
             android:theme="@style/Theme.Penggajian.NoActionBar"></activity>
         <activity android:name=".Common.LoginSignUp.SmsVerifyOTP" />
@@ -17,7 +17,6 @@
         <activity android:name=".Common.LoginSignUp.SignupActivity3" />
         <activity android:name=".Common.LoginSignUp.SignupActivity2" />
         <activity android:name=".Common.LoginSignUp.SignupActivity" />
-        <activity android:name=".MainActivity" />
         <activity android:name=".Common.LoginSignUp.LoginActivity" />
         <activity android:name=".Common.LoginSignUp.RetailerActivity">
             <intent-filter>
