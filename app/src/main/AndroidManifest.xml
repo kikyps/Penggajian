@@ -8,10 +8,12 @@
         android:label="@string/pdam"
         android:supportsRtl="true"
         android:theme="@style/Theme.Penggajian">
+        <activity android:name=".ui.dashboard.TambahDataPegawai"
+            android:label="@string/add_pegawai"></activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_dashboard"
-            android:theme="@style/Theme.Penggajian.NoActionBar"></activity>
+            android:theme="@style/Theme.Penggajian.NoActionBar" />
         <activity android:name=".Common.LoginSignUp.SmsVerifyOTP" />
         <activity android:name=".Common.LoginSignUp.VerifyOTP" />
         <activity android:name=".Common.LoginSignUp.SignupActivity3" />

@@ -3,6 +3,7 @@ package com.kp.penggajian.Common.LoginSignUp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -23,6 +24,7 @@ import com.kp.penggajian.R;
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputLayout usernameValid, passwordValid;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameValid = findViewById(R.id.login_username);
         passwordValid = findViewById(R.id.login_password);
+
+        progressDialog = new ProgressDialog(this);  //progress dialog
 
         ImageView back = (ImageView) findViewById(R.id.login_back_button);
         back.setClickable(true);
@@ -56,7 +60,10 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                progressDialog.setMessage("Please Wait...");
+                progressDialog.show();
                 if (!validateUsername() | !validatePassword()) {
+                    progressDialog.dismiss();
                     return;
                 } else {
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -77,6 +84,7 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
                                 Toast.makeText(getApplicationContext(), getString(R.string.unknown_data), Toast.LENGTH_SHORT).show();
                             }
+                            progressDialog.dismiss();
                         }
 
 

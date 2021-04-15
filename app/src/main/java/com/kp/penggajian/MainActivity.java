@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.kp.penggajian.Common.LoginSignUp.RetailerActivity;
+import com.kp.penggajian.ui.dashboard.TambahDataPegawai;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,13 +41,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -62,9 +57,25 @@ public class MainActivity extends AppCompatActivity {
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-                if (destination.getId() == R.id.nav_dashboard) {
+                if (destination.getId() == R.id.nav_dashboard){
                     fab.hide();
-                } else {
+                } else if (destination.getId() == R.id.nav_gallery){
+                    fab.setImageResource(R.drawable.ic_baseline_add_24);
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(getApplicationContext(), TambahDataPegawai.class));
+                        }
+                    });
+                    fab.show();
+                } else if (destination.getId() == R.id.nav_slideshow) {
+                    fab.setImageResource(R.drawable.ic_iconmonstr_pencil_4);
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Snackbar.make(view, "this is action", Snackbar.LENGTH_LONG).show();
+                        }
+                    });
                     fab.show();
                 }
             }

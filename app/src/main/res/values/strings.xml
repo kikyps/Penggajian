@@ -51,4 +51,8 @@
     <string name="exit">Exit</string>
     <string name="yes_confirm">yes</string>
     <string name="no_confirm">No</string>
+    <string name="add_pegawai">Add data pegawai</string>
+    <string name="nama_pegawai">Nama Pegawai</string>
+    <string name="golongan">Golongan</string>
+    <string name="tggl_lahir">Tanggal Lahir</string>
 </resources>
