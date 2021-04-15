@@ -15,7 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.kp.penggajian.Common.LoginSignUp.RetailerActivity;
-import com.kp.penggajian.ui.dashboard.TambahDataPegawai;
+import com.kp.penggajian.ui.pegawai.TambahDataPegawai;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

@@ -8,7 +8,7 @@
         android:label="@string/pdam"
         android:supportsRtl="true"
         android:theme="@style/Theme.Penggajian">
-        <activity android:name=".ui.dashboard.TambahDataPegawai"
+        <activity android:name=".ui.pegawai.TambahDataPegawai"
             android:label="@string/add_pegawai"></activity>
         <activity
             android:name=".MainActivity"

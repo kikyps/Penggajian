@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_dashboard"
-        android:name="com.kp.penggajian.ui.home.HomeFragment"
+        android:name="com.kp.penggajian.ui.pegawai.PegawaiFragment"
         android:label="@string/menu_dashboard"
         tools:layout="@layout/fragment_home" />
 
