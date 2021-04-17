@@ -61,6 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 progressDialog.setMessage("Please Wait...");
+                progressDialog.setCancelable(false);
                 progressDialog.show();
                 if (!validateUsername() | !validatePassword()) {
                     progressDialog.dismiss();

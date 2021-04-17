@@ -59,7 +59,10 @@
     <string name="jabatan">Jabatan</string>
     <string name="divisi">Divisi</string>
     <string name="area">Area</string>
-    <string name="add_data">Tambah</string>
+    <string name="add_data">Tambah data</string>
     <string name="data_pegawai">Data Pegawai</string>
     <string name="gaji_pegawai">Gaji Pegawai</string>
+    <string name="add_pegawai_message">Are you sure want to add new data pegawai?</string>
+    <string name="add_pegawai_success">Data berhasil ditambahkan...!</string>
+    <string name="failed_data_upload">Gagal upload data!!</string>
 </resources>
