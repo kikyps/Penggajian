@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_dashboard, R.id.nav_gallery, R.id.nav_slideshow)
+                R.id.nav_dashboard, R.id.nav_pegawai, R.id.nav_slideshow)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
                 if (destination.getId() == R.id.nav_dashboard){
                     fab.hide();
-                } else if (destination.getId() == R.id.nav_gallery){
+                } else if (destination.getId() == R.id.nav_pegawai){
                     fab.setImageResource(R.drawable.ic_baseline_add_24);
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override

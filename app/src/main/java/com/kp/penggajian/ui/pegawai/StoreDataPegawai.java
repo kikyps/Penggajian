@@ -2,7 +2,15 @@ package com.kp.penggajian.ui.pegawai;
 
 public class StoreDataPegawai {
 
-    String sNik, sNamaPegawai, sGolongan, sTglLahir, sTglPensiun, sJabatan, sDivisi, sArea;
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    String key, sNik, sNamaPegawai, sGolongan, sTglLahir, sTglPensiun, sJabatan, sDivisi, sArea;
 
     public StoreDataPegawai(){
     }

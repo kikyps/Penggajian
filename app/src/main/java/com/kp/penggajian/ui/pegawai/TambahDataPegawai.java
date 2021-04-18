@@ -76,7 +76,7 @@ public class TambahDataPegawai extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 myCalendar.setTime(Calendar.getInstance().getTime());
-                new DatePickerDialog(TambahDataPegawai.this, date, myCalendar
+                new DatePickerDialog(TambahDataPegawai.this, R.style.my_dialog_theme, date, myCalendar
                         .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                         myCalendar.get(Calendar.DAY_OF_MONTH)).show();
             }
@@ -100,7 +100,7 @@ public class TambahDataPegawai extends AppCompatActivity {
                 if (et1.isEmpty()){
                     Snackbar.make(view,"Isi tanggal lahir terlebih dahulu!", Snackbar.LENGTH_LONG).show();
                 } else {
-                    new DatePickerDialog(TambahDataPegawai.this, date2, myCalendar
+                    new DatePickerDialog(TambahDataPegawai.this, R.style.my_dialog_theme, date2, myCalendar
                             .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
                             myCalendar.get(Calendar.DAY_OF_MONTH)).show();
                 }
@@ -132,6 +132,7 @@ public class TambahDataPegawai extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Toast.makeText(getApplicationContext(), getResources().getString(R.string.add_pegawai_success), Toast.LENGTH_SHORT).show();
+                                        finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override

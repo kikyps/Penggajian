@@ -18,6 +18,13 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="my_dialog_theme" parent="ThemeOverlay.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>                   <!--header background-->
+        <!--<item name="android:windowBackground">@color/colorPrimary</item>-->      <!--calendar background-->
+        <!-- <item name="android:textColorPrimary">@color/colorPrimaryText</item>--> <!--days of the month-->
+        <!-- <item name="android:textColorSecondary">@color/colorAccent</item>-->   <!--days of the week-->
+    </style>
+
     <style name="MyDatePicker">
         <!-- Text color -->
         <item name="android:textColorPrimary">@color/black</item>
@@ -44,4 +51,6 @@
     <style name="fabtheme" parent="Widget.Design.FloatingActionButton">
         <item name="colorOnSecondary">@color/white</item>
     </style>
+
+    <color name="colorPrimaryText">#FFFFFF</color>
 </resources>

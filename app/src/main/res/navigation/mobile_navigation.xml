@@ -7,15 +7,15 @@
 
     <fragment
         android:id="@+id/nav_dashboard"
-        android:name="com.kp.penggajian.ui.pegawai.PegawaiFragment"
+        android:name="com.kp.penggajian.ui.dashboard.DashbordFragment"
         android:label="@string/menu_dashboard"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_dashboard" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="com.kp.penggajian.ui.dashboard.DashbordFragment"
-        android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        android:id="@+id/nav_pegawai"
+        android:name="com.kp.penggajian.ui.pegawai.PegawaiFragment"
+        android:label="@string/menu_pegawai"
+        tools:layout="@layout/fragment_pegawai" />
 
     <fragment
         android:id="@+id/nav_slideshow"
