@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kp.penggajian.R;
@@ -91,8 +92,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         TextView tv_nama;
         TextView tv_jabatan;
         TextView tv_area;
-
         CardView card_view;
+        ConstraintLayout parentLayout;
 
 
         public MyViewHolder(@NonNull View iteView){

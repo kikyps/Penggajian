@@ -20,12 +20,14 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kp.penggajian.MainActivity;
 import com.kp.penggajian.R;
 
 import java.util.ArrayList;
@@ -40,6 +42,7 @@ public class PegawaiFragment extends Fragment {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
     ArrayList<StoreDataPegawai> listPegawai = new ArrayList<>();
     RecyclerView recyclerView;
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public static ProgressDialog progressDialog;
 
@@ -56,6 +59,28 @@ public class PegawaiFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         customProgresBar();
         showData();
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dy > 0 && MainActivity.fab.getVisibility() == View.VISIBLE){
+                    MainActivity.fab.hide();
+                } else if (dy < 0 && MainActivity.fab.getVisibility() != View.VISIBLE){
+                    MainActivity.fab.show();
+                }
+            }
+        });
+
+        swipeRefreshLayout = root.findViewById(R.id.swiper);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showData();
+
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
 
         setHasOptionsMenu(true);
         return root;
