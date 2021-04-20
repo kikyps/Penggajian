@@ -1,5 +1,7 @@
 package com.kp.penggajian.ui.pegawai;
 
+import java.util.Comparator;
+
 public class StoreDataPegawai {
 
     public String getKey() {
@@ -25,6 +27,13 @@ public class StoreDataPegawai {
         this.sDivisi = sDivisi;
         this.sArea = sArea;
     }
+
+    public static Comparator<StoreDataPegawai> storeDataPegawaiComparator = new Comparator<StoreDataPegawai>() {
+        @Override
+        public int compare(StoreDataPegawai storeDataPegawai, StoreDataPegawai t1) {
+            return storeDataPegawai.getsNamaPegawai().compareTo(t1.getsNamaPegawai());
+        }
+    };
 
     public String getsNik() {
         return sNik;
