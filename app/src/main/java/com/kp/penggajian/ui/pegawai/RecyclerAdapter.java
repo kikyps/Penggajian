@@ -1,5 +1,7 @@
 package com.kp.penggajian.ui.pegawai;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +24,10 @@ import java.util.List;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> implements Filterable {
     private List<StoreDataPegawai> AllList;
     public List<StoreDataPegawai> FilteredList;
+    Context context;
 
-    public RecyclerAdapter(List<StoreDataPegawai> mList) {
+    public RecyclerAdapter(List<StoreDataPegawai> mList, Context context) {
+        this.context = context;
         this.AllList = mList;
         //this.FilteredList = mList;
         FilteredList = new ArrayList<>(mList);
@@ -32,7 +36,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @NonNull
     @Override
     public RecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        LayoutInflater inflater = LayoutInflater.from(context);
         View itemView = inflater.inflate(R.layout.layout_item, parent, false);
         return new MyViewHolder(itemView);
     }
@@ -46,6 +50,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.tv_jabatan.setText("Jabatan : " + storeDataPegawai.getsJabatan());
         holder.tv_area.setText("Area : " + storeDataPegawai.getsArea());
         PegawaiFragment.progressDialog.dismiss();
+        holder.card_view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, ShowDetailData.class);
+                intent.putExtra("idData", AllList.get(position).getKey());
+                context.startActivities(new Intent[]{intent});
+            }
+        });
     }
 
     @Override
@@ -93,7 +105,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         TextView tv_jabatan;
         TextView tv_area;
         CardView card_view;
-        ConstraintLayout parentLayout;
 
 
         public MyViewHolder(@NonNull View iteView){

@@ -64,7 +64,7 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:inputType="textUri"
+                        android:inputType="textCapWords"
                         android:id="@+id/nama_pegawai"
                         android:textColor="@color/black" />
 
@@ -85,7 +85,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/golongan"
-                        android:inputType="textUri"
+                        android:inputType="textCapSentences"
                         android:textColor="@color/black" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -153,7 +153,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/jabatan"
-                        android:inputType="textUri"
+                        android:inputType="textCapSentences"
                         android:textColor="@color/black" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -193,7 +193,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:id="@+id/area"
-                        android:inputType="textUri"
+                        android:inputType="textCapSentences"
                         android:textColor="@color/black" />
 
                 </com.google.android.material.textfield.TextInputLayout>

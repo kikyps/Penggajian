@@ -59,6 +59,7 @@ public class PegawaiFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         customProgresBar();
         showData();
+        Collections.sort(listPegawai, StoreDataPegawai.storeDataPegawaiComparator);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -126,7 +127,7 @@ public class PegawaiFragment extends Fragment {
                     pegawai.setKey(item.getKey());
                     listPegawai.add(pegawai);
                 }
-                recyclerAdapter = new RecyclerAdapter(listPegawai);
+                recyclerAdapter = new RecyclerAdapter(listPegawai, getContext());
                 recyclerView.setAdapter(recyclerAdapter);
             }
 

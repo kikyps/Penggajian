@@ -8,8 +8,11 @@
         android:label="@string/pdam"
         android:supportsRtl="true"
         android:theme="@style/Theme.Penggajian">
-        <activity android:name=".ui.pegawai.TambahDataPegawai"
-            android:label="@string/add_pegawai"></activity>
+        <activity android:name=".ui.pegawai.ShowDetailData"
+            android:label="@string/data_pegawai"></activity>
+        <activity
+            android:name=".ui.pegawai.TambahDataPegawai"
+            android:label="@string/add_pegawai" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_dashboard"
