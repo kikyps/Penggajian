@@ -12,19 +12,25 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.R;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -32,9 +38,12 @@ import java.util.Locale;
 public class TambahDataPegawai extends AppCompatActivity {
 
     final Calendar myCalendar = Calendar.getInstance();
-    TextInputEditText etNik, etNamaPegawai, etGolongan, etTglLahir, etTglPensiun, etJabatan, etDevisi, etArea;
+    TextInputEditText etNik, etNamaPegawai, etGolongan, etTglLahir, etTglPensiun, etJabatan, etNoHp, etAlamat;
     Button btnTambah;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+
+    private Spinner divisiSpinner;
+    private ArrayList<String> divisiSpin = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +59,9 @@ public class TambahDataPegawai extends AppCompatActivity {
         etTglLahir = findViewById(R.id.tgl_lahir);
         etTglPensiun = findViewById(R.id.tgl_pensiun);
         etJabatan = findViewById(R.id.jabatan);
-        etDevisi = findViewById(R.id.divisi);
-        etArea = findViewById(R.id.area);
+        divisiSpinner = findViewById(R.id.divisi);
+        etNoHp = findViewById(R.id.nohp);
+        etAlamat = findViewById(R.id.alamat);
 
         etNik.addTextChangedListener(tambahData);
         etNamaPegawai.addTextChangedListener(tambahData);
@@ -59,8 +69,10 @@ public class TambahDataPegawai extends AppCompatActivity {
         etTglLahir.addTextChangedListener(tambahData);
         etTglPensiun.addTextChangedListener(tambahData);
         etJabatan.addTextChangedListener(tambahData);
-        etDevisi.addTextChangedListener(tambahData);
-        etArea.addTextChangedListener(tambahData);
+        etNoHp.addTextChangedListener(tambahData);
+        etAlamat.addTextChangedListener(tambahData);
+
+        showSpinnerDivisi();
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -116,8 +128,9 @@ public class TambahDataPegawai extends AppCompatActivity {
                 String sTglLahir = etTglLahir.getText().toString().trim();
                 String sTglPensiun = etTglPensiun.getText().toString().trim();
                 String sJabatan = etJabatan.getText().toString().trim();
-                String sDivisi = etDevisi.getText().toString().trim();
-                String sArea = etArea.getText().toString().trim();
+                String sDivisi = divisiSpinner.getSelectedItem().toString();
+                String sNoHp = etNoHp.getText().toString().trim();
+                String sAlamat = etAlamat.getText().toString().trim();
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(TambahDataPegawai.this);
                 builder.setTitle(getResources().getString(R.string.add_data))
@@ -126,7 +139,7 @@ public class TambahDataPegawai extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                StoreDataPegawai storeDataPegawai = new StoreDataPegawai(sNik, sNamaPegawai, sGolongan, sTglLahir, sTglPensiun, sJabatan, sDivisi, sArea);
+                                StoreDataPegawai storeDataPegawai = new StoreDataPegawai(sNik, sNamaPegawai, sGolongan, sTglLahir, sTglPensiun, sJabatan, sDivisi, sNoHp, sAlamat);
 
                                 databaseReference.child("DataPegawai").push().setValue(storeDataPegawai).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -160,6 +173,25 @@ public class TambahDataPegawai extends AppCompatActivity {
         }
     }
 
+    private void showSpinnerDivisi(){
+        databaseReference.child("DataBagianDivisi").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                divisiSpin.clear();
+                for (DataSnapshot item : snapshot.getChildren()){
+                    divisiSpin.add(item.child("sBagianDivisi").getValue(String.class));
+                }
+                ArrayAdapter<String > arrayAdapter = new ArrayAdapter<>(TambahDataPegawai.this, R.layout.spinner_divisi, divisiSpin);
+                divisiSpinner.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
     private TextWatcher tambahData = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -174,10 +206,11 @@ public class TambahDataPegawai extends AppCompatActivity {
             String tgllahir = etTglLahir.getText().toString().trim();
             String tglpensi = etTglPensiun.getText().toString().trim();
             String jabatan = etJabatan.getText().toString().trim();
-            String divisi = etDevisi.getText().toString().trim();
-            String area = etArea.getText().toString().trim();
+            String divisi = divisiSpinner.getSelectedItem().toString();
+            String nohp = etNoHp.getText().toString().trim();
+            String alamat = etAlamat.getText().toString().trim();
 
-            btnTambah.setEnabled(!nik.isEmpty() && !nama.isEmpty() && !golongan.isEmpty() && !tgllahir.isEmpty() && !tglpensi.isEmpty() && !jabatan.isEmpty() && !divisi.isEmpty() && !area.isEmpty());
+            btnTambah.setEnabled(!nik.isEmpty() && !nama.isEmpty() && !golongan.isEmpty() && !tgllahir.isEmpty() && !tglpensi.isEmpty() && !jabatan.isEmpty() && !divisi.isEmpty() && !nohp.isEmpty() && !alamat.isEmpty());
         }
 
         @Override

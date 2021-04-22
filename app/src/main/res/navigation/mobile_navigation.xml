@@ -22,4 +22,10 @@
         android:name="com.kp.penggajian.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_bagian"
+        android:name="com.kp.penggajian.ui.bagian.BagianFragment"
+        android:label="Bagian Divisi"
+        tools:layout="@layout/fragment_slideshow" />
 </navigation>

@@ -21,15 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.R;
 
-import org.w3c.dom.Text;
-
-import java.util.zip.Inflater;
-
 public class ShowDetailData extends AppCompatActivity {
 
-    TextView labelName, mynik, myname, mygolongan, mytgllahir, mytglpensiun, myjabatan, mydivisi, myarea;
+    TextView labelName, mynik, myname, mygolongan, mytgllahir, mytglpensiun, myjabatan, mydivisi, mynohp, myalamat;
     DatabaseReference databaseReference;
-    String iddata, Nik, NamaPegawai, Golongan, TglLahir, TglPensiun, Jabatan, Divisi, Area;
+    String iddata, Nik, NamaPegawai, Golongan, TglLahir, TglPensiun, Jabatan, Divisi, Nohp, Alamat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +44,8 @@ public class ShowDetailData extends AppCompatActivity {
         mytglpensiun = findViewById(R.id.mypensiun);
         myjabatan = findViewById(R.id.myjabatan);
         mydivisi = findViewById(R.id.mydivisi);
-        myarea = findViewById(R.id.myarea);
+        mynohp = findViewById(R.id.mynohp);
+        myalamat = findViewById(R.id.myalamat);
 
         iddata = getIntent().getStringExtra("idData");
 
@@ -63,7 +60,8 @@ public class ShowDetailData extends AppCompatActivity {
                     TglPensiun = snapshot.child("sTglPensiun").getValue().toString();
                     Jabatan = snapshot.child("sJabatan").getValue().toString();
                     Divisi = snapshot.child("sDivisi").getValue().toString();
-                    Area = snapshot.child("sArea").getValue().toString();
+                    Nohp = snapshot.child("sNoHp").getValue().toString();
+                    Alamat = snapshot.child("sAlamat").getValue().toString();
 
                     labelName.setText(NamaPegawai);
                     mynik.setText("Nik : \n" + Nik);
@@ -73,7 +71,8 @@ public class ShowDetailData extends AppCompatActivity {
                     mytglpensiun.setText("Tanggal Pensiun : \n" + TglPensiun);
                     myjabatan.setText("Jabatan : \n" + Jabatan);
                     mydivisi.setText("Divisi : \n" + Divisi);
-                    myarea.setText("Area : \n" + Area);
+                    mynohp.setText("No Handphone : \n" + Nohp);
+                    myalamat.setText("Alamat : \n" + Alamat);
                 }
             }
 
@@ -93,7 +92,7 @@ public class ShowDetailData extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.showdetail_menu, menu);
+        getMenuInflater().inflate(R.menu.detail_pegawai_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 

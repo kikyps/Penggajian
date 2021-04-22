@@ -69,17 +69,14 @@
                         android:id="@+id/layout_nik"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:padding="15dp">
 
                     <TextView
                         android:id="@+id/mynik"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/nik"
-                        style="@style/text_row"/>
+                        style="@style/text_style"/>
 
                     </RelativeLayout>
 
@@ -87,17 +84,14 @@
                         android:id="@+id/layout_nama"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:padding="15dp">
 
                         <TextView
                             android:id="@+id/myname"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/nama_pegawai"
-                            style="@style/text_row"/>
+                            style="@style/text_style"/>
 
                     </RelativeLayout>
 
@@ -105,17 +99,14 @@
                         android:id="@+id/layout_golongan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:padding="15dp">
 
                         <TextView
                             android:id="@+id/mygolongan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/golongan"
-                            style="@style/text_row"/>
+                            style="@style/text_style"/>
 
                     </RelativeLayout>
 
@@ -123,17 +114,14 @@
                         android:id="@+id/layout_tgllahir"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:padding="15dp">
 
                         <TextView
                             android:id="@+id/mytgllahir"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/tggl_lahir"
-                            style="@style/text_row"/>
+                            style="@style/text_style"/>
 
                     </RelativeLayout>
 
@@ -141,17 +129,14 @@
                         android:id="@+id/layout_pensiun"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:padding="15dp">
 
                         <TextView
                             android:id="@+id/mypensiun"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/tgl_pensiun"
-                            style="@style/text_row"/>
+                            style="@style/text_style"/>
 
                     </RelativeLayout>
 
@@ -159,17 +144,14 @@
                         android:id="@+id/layout_jabatan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:padding="15dp">
 
                         <TextView
                             android:id="@+id/myjabatan"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/jabatan"
-                            style="@style/text_row"/>
+                            style="@style/text_style"/>
 
                     </RelativeLayout>
 
@@ -177,17 +159,14 @@
                         android:id="@+id/layout_divisi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:padding="15dp">
 
                         <TextView
                             android:id="@+id/mydivisi"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="@string/divisi"
-                            style="@style/text_row"/>
+                            style="@style/text_style"/>
 
                     </RelativeLayout>
 
@@ -195,17 +174,29 @@
                         android:id="@+id/layout_area"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:foreground="?android:attr/selectableItemBackground"
-                        android:clickable="true"
-                        android:focusable="true">
+                        android:padding="15dp">
 
                         <TextView
-                            android:id="@+id/myarea"
+                            android:id="@+id/mynohp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/area"
-                            style="@style/text_row"/>
+                            android:text="@string/nohp"
+                            style="@style/text_style"/>
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout_alamat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp">
+
+                        <TextView
+                            android:id="@+id/myalamat"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/alamat"
+                            style="@style/text_style"/>
 
                     </RelativeLayout>
 

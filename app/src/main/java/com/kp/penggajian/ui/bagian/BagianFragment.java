@@ -1,4 +1,4 @@
-package com.kp.penggajian.ui.pegawai;
+package com.kp.penggajian.ui.bagian;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -28,11 +28,11 @@ import com.kp.penggajian.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class PegawaiFragment extends Fragment {
+public class BagianFragment extends Fragment {
 
-    PegawaiRecyclerAdapter recyclerAdapter;
+    BagianRecyclerAdapter recyclerAdapter;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    ArrayList<StoreDataPegawai> listPegawai = new ArrayList<>();
+    ArrayList<StoreDivisi> listDivisi = new ArrayList<>();
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -42,7 +42,7 @@ public class PegawaiFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_pegawai, container, false);
+        View root = inflater.inflate(R.layout.fragment_bagian, container, false);
 
         recyclerView = root.findViewById(R.id.rv_view);
         recyclerView.setHasFixedSize(true);
@@ -51,7 +51,7 @@ public class PegawaiFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         customProgresBar();
         showData();
-        Collections.sort(listPegawai, StoreDataPegawai.storeDataPegawaiComparator);
+        Collections.sort(listDivisi, StoreDivisi.storeDevisiComparator);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -89,10 +89,10 @@ public class PegawaiFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.pegawai_menu, menu);
-        MenuItem item = menu.findItem(R.id.filter_pegawai);
+        inflater.inflate(R.menu.divisi_menu, menu);
+        MenuItem item = menu.findItem(R.id.filter_divisi);
         searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint(getResources().getString(R.string.cari_pegawai));
+        searchView.setQueryHint(getResources().getString(R.string.search_divisi_bagian));
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -109,22 +109,21 @@ public class PegawaiFragment extends Fragment {
     }
 
     private void showData(){
-        databaseReference.child("DataPegawai").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("DataBagianDivisi").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listPegawai = new ArrayList<>();
-
+                listDivisi = new ArrayList<>();
                 if (snapshot.exists()) {
                     for (DataSnapshot item : snapshot.getChildren()) {
-                        StoreDataPegawai pegawai = item.getValue(StoreDataPegawai.class);
-                        pegawai.setKey(item.getKey());
-                        listPegawai.add(pegawai);
+                        StoreDivisi divisi = item.getValue(StoreDivisi.class);
+                        divisi.setKey(item.getKey());
+                        listDivisi.add(divisi);
                         progressDialog.dismiss();
                     }
-                } else {
-                    progressDialog.dismiss();
-                }
-                recyclerAdapter = new PegawaiRecyclerAdapter(listPegawai, getContext());
+                }else {
+                        progressDialog.dismiss();
+                    }
+                recyclerAdapter = new BagianRecyclerAdapter(listDivisi, getContext());
                 recyclerView.setAdapter(recyclerAdapter);
             }
 

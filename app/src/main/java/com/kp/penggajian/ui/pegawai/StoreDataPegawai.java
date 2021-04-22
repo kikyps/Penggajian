@@ -12,12 +12,29 @@ public class StoreDataPegawai {
         this.key = key;
     }
 
-    String key, sNik, sNamaPegawai, sGolongan, sTglLahir, sTglPensiun, sJabatan, sDivisi, sArea;
+    String key;
+    String sNik;
+    String sNamaPegawai;
+    String sGolongan;
+    String sTglLahir;
+    String sTglPensiun;
+    String sJabatan;
+    String sDivisi;
+    String sNoHp;
+    String sAlamat;
+
+    public String getsAlamat() {
+        return sAlamat;
+    }
+
+    public void setsAlamat(String sAlamat) {
+        this.sAlamat = sAlamat;
+    }
 
     public StoreDataPegawai(){
     }
 
-    public StoreDataPegawai(String sNik, String sNamaPegawai, String sGolongan, String sTglLahir, String sTglPensiun, String sJabatan, String sDivisi, String sArea) {
+    public StoreDataPegawai(String sNik, String sNamaPegawai, String sGolongan, String sTglLahir, String sTglPensiun, String sJabatan, String sDivisi, String sNoHp, String sAlamat) {
         this.sNik = sNik;
         this.sNamaPegawai = sNamaPegawai;
         this.sGolongan = sGolongan;
@@ -25,7 +42,8 @@ public class StoreDataPegawai {
         this.sTglPensiun = sTglPensiun;
         this.sJabatan = sJabatan;
         this.sDivisi = sDivisi;
-        this.sArea = sArea;
+        this.sNoHp = sNoHp;
+        this.sAlamat = sAlamat;
     }
 
     public static Comparator<StoreDataPegawai> storeDataPegawaiComparator = new Comparator<StoreDataPegawai>() {
@@ -91,11 +109,11 @@ public class StoreDataPegawai {
         this.sDivisi = sDivisi;
     }
 
-    public String getsArea() {
-        return sArea;
+    public String getsNoHp() {
+        return sNoHp;
     }
 
-    public void setsArea(String sArea) {
-        this.sArea = sArea;
+    public void setsNoHp(String sNoHp) {
+        this.sNoHp = sNoHp;
     }
 }

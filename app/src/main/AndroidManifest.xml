@@ -8,8 +8,13 @@
         android:label="@string/pdam"
         android:supportsRtl="true"
         android:theme="@style/Theme.Penggajian">
-        <activity android:name=".ui.pegawai.ShowDetailData"
-            android:label="@string/data_pegawai"></activity>
+        <activity android:name=".ui.bagian.UpdateBagianDevisi"
+            android:label="@string/edit_divisi"/>
+        <activity android:name=".ui.bagian.TambahBagian"
+            android:label="@string/tambah_divisi"/>
+        <activity
+            android:name=".ui.pegawai.ShowDetailData"
+            android:label="@string/data_pegawai" />
         <activity
             android:name=".ui.pegawai.TambahDataPegawai"
             android:label="@string/add_pegawai" />

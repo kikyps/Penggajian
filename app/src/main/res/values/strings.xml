@@ -58,7 +58,7 @@
     <string name="tgl_pensiun">Tanggal Pensiun</string>
     <string name="jabatan">Jabatan</string>
     <string name="divisi">Divisi</string>
-    <string name="area">Area</string>
+    <string name="nohp">No Handphone</string>
     <string name="add_data">Tambah data</string>
     <string name="data_pegawai">Data Pegawai</string>
     <string name="gaji_pegawai">Gaji Pegawai</string>
@@ -69,4 +69,11 @@
     <string name="search_filter">Search</string>
     <string name="cari_pegawai">Cari nama pegawai</string>
     <string name="delete_pegawai">Delete Data</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="search_divisi_bagian">Cari Divisi</string>
+    <string name="update_divisi">Update Data Divisi</string>
+    <string name="edit_divisi">Edit Bagian Divisi</string>
+    <string name="tambah_divisi">Tambah Divisi</string>
+    <string name="alamat">Alamat</string>
 </resources>

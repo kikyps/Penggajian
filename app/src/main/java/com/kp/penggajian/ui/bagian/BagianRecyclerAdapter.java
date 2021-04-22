@@ -1,4 +1,4 @@
-package com.kp.penggajian.ui.pegawai;
+package com.kp.penggajian.ui.bagian;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,22 +11,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.kp.penggajian.R;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> implements Filterable {
-    private List<StoreDataPegawai> AllList;
-    public List<StoreDataPegawai> FilteredList;
+public class BagianRecyclerAdapter extends RecyclerView.Adapter<BagianRecyclerAdapter.MyViewHolder> implements Filterable {
+    private List<StoreDivisi> AllList;
+    public List<StoreDivisi> FilteredList;
     Context context;
 
-    public RecyclerAdapter(List<StoreDataPegawai> mList, Context context) {
+    public BagianRecyclerAdapter(List<StoreDivisi> mList, Context context) {
         this.context = context;
         this.AllList = mList;
         //this.FilteredList = mList;
@@ -35,26 +33,23 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     @NonNull
     @Override
-    public RecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BagianRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View itemView = inflater.inflate(R.layout.layout_item, parent, false);
+        View itemView = inflater.inflate(R.layout.item_bagian, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAdapter.MyViewHolder holder, int position) {
-        Collections.sort(AllList, StoreDataPegawai.storeDataPegawaiComparator);
-        StoreDataPegawai storeDataPegawai = AllList.get(position);
-        holder.tv_nik.setText("Nik : " + storeDataPegawai.getsNik());
-        holder.tv_nama.setText("Nama : " + storeDataPegawai.getsNamaPegawai());
-        holder.tv_jabatan.setText("Jabatan : " + storeDataPegawai.getsJabatan());
-        holder.tv_area.setText("Area : " + storeDataPegawai.getsArea());
-        PegawaiFragment.progressDialog.dismiss();
+    public void onBindViewHolder(@NonNull BagianRecyclerAdapter.MyViewHolder holder, int position) {
+        Collections.sort(AllList, StoreDivisi.storeDevisiComparator);
+        StoreDivisi storeDevisi = AllList.get(position);
+        holder.tv_BagianDivisi.setText(storeDevisi.getsBagianDivisi());
+        holder.tv_GajiPokok.setText(storeDevisi.getsGajiPokok());
         holder.card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ShowDetailData.class);
-                intent.putExtra("idData", AllList.get(position).getKey());
+                Intent intent = new Intent(context, UpdateBagianDevisi.class);
+                intent.putExtra("idDivisi", AllList.get(position).getKey());
                 context.startActivities(new Intent[]{intent});
             }
         });
@@ -74,13 +69,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             String searchText = charSequence.toString().toLowerCase();
-            List<StoreDataPegawai> listFiltered = new ArrayList<>();
+            List<StoreDivisi> listFiltered = new ArrayList<>();
 
             if (searchText.isEmpty()) {
                 listFiltered.addAll(FilteredList);
             } else {
-                for (StoreDataPegawai data : FilteredList) {
-                    if (data.getsNamaPegawai().toLowerCase().contains(searchText)) {
+                for (StoreDivisi data : FilteredList) {
+                    if (data.getsBagianDivisi().toLowerCase().contains(searchText)) {
                         listFiltered.add(data);
                     }
                 }
@@ -100,20 +95,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     };
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_nik;
-        TextView tv_nama;
-        TextView tv_jabatan;
-        TextView tv_area;
+        TextView tv_BagianDivisi;
+        TextView tv_GajiPokok;
         CardView card_view;
 
 
         public MyViewHolder(@NonNull View iteView){
             super(iteView);
 
-            tv_nik = iteView.findViewById(R.id.sNik);
-            tv_nama = iteView.findViewById(R.id.sNamaPegawai);
-            tv_jabatan = iteView.findViewById(R.id.sJabatan);
-            tv_area = iteView.findViewById(R.id.sArea);
+            tv_BagianDivisi = iteView.findViewById(R.id.sBagianDivisi);
+            tv_GajiPokok = iteView.findViewById(R.id.sGajiPokok);
             card_view = iteView.findViewById(R.id.card_view);
         }
     }
