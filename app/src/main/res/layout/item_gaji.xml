@@ -24,15 +24,11 @@
         android:paddingBottom="10dp"
         android:layout_marginStart="10dp"
         android:background="@color/white">
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:id="@+id/sNik"
-            android:text="@string/nik"
-            android:textSize="@dimen/item_text_size"
-            android:textColor="@color/black"/>
+            android:text="@string/nama_pegawai"/>
 
         <TextView
             android:layout_width="match_parent"
@@ -41,27 +37,24 @@
             android:layout_marginTop="5dp"
             android:id="@+id/sNamaPegawai"
             android:text="@string/nama_pegawai"
-            android:textSize="@dimen/item_text_size"
+            android:textSize="18dp"
             android:textColor="@color/black"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:id="@+id/sJabatanPegawai"
-            android:text="@string/jabatan"
-            android:textSize="@dimen/item_text_size"
-            android:textColor="@color/black"/>
+            android:layout_marginTop="10dp"
+            android:text="Total Gaji"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:id="@+id/sNoHp"
-            android:text="@string/nohp"
-            android:textSize="@dimen/item_text_size"
+            android:id="@+id/sGajiPegawai"
+            android:text="Total Gaji"
+            android:textSize="18dp"
             android:textColor="@color/black"/>
 
     </LinearLayout>

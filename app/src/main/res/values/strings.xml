@@ -52,7 +52,7 @@
     <string name="yes_confirm">yes</string>
     <string name="no_confirm">No</string>
     <string name="add_pegawai">Add data pegawai</string>
-    <string name="nama_pegawai">Nama</string>
+    <string name="nama_pegawai">Nama Pegawai</string>
     <string name="golongan">Golongan</string>
     <string name="tggl_lahir">Tanggal Lahir</string>
     <string name="tgl_pensiun">Tanggal Pensiun</string>
@@ -76,4 +76,14 @@
     <string name="edit_divisi">Edit Bagian Divisi</string>
     <string name="tambah_divisi">Tambah Divisi</string>
     <string name="alamat">Alamat</string>
+    <string name="search_jabatan">Cari data jabatan</string>
+    <string name="tunjangan_jabatan">Tunjangan Jabatan</string>
+    <string name="tambah_jabatan">Tambah Jabatan</string>
+    <string name="update_jabatan">Edit Jabatan</string>
+    <string name="tunjangan">Tunjangan</string>
+    <string name="update_gaji">Update Gaji</string>
+    <string name="gaji_pokok">Gaji Pokok</string>
+    <string name="total_gaji">Total Gaji</string>
+    <string name="tunjangan_keluarga">Tunjangan Keluarga</string>
+    <string name="jumlah_kotor">Jumlah Kotor</string>
 </resources>

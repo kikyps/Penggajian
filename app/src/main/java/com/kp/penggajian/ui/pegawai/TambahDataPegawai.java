@@ -12,6 +12,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -28,7 +29,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.R;
+import com.kp.penggajian.ui.bagian.StoreDivisi;
+import com.kp.penggajian.ui.jabatan.StoreJabatan;
 
+import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,12 +42,19 @@ import java.util.Locale;
 public class TambahDataPegawai extends AppCompatActivity {
 
     final Calendar myCalendar = Calendar.getInstance();
-    TextInputEditText etNik, etNamaPegawai, etGolongan, etTglLahir, etTglPensiun, etJabatan, etNoHp, etAlamat;
+    TextInputEditText etNik, etNamaPegawai, etGolongan, etTglLahir, etTglPensiun, etNoHp, etAlamat;
     Button btnTambah;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
-    private Spinner divisiSpinner;
+    private Spinner divisiSpinner, jabatanSpinner;
     private ArrayList<String> divisiSpin = new ArrayList<>();
+    private ArrayList<String> jabatanSpin = new ArrayList<>();
+    private ArrayList<StoreDivisi> divisiData = new ArrayList<>();
+    private ArrayList<StoreJabatan> jabatanData = new ArrayList<>();
+
+    String selectDivisi, selectJabatan;
+
+    int jabatanValue, divisiValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,8 +69,9 @@ public class TambahDataPegawai extends AppCompatActivity {
         etGolongan = findViewById(R.id.golongan);
         etTglLahir = findViewById(R.id.tgl_lahir);
         etTglPensiun = findViewById(R.id.tgl_pensiun);
-        etJabatan = findViewById(R.id.jabatan);
         divisiSpinner = findViewById(R.id.divisi);
+        jabatanSpinner = findViewById(R.id.jabatan);
+
         etNoHp = findViewById(R.id.nohp);
         etAlamat = findViewById(R.id.alamat);
 
@@ -68,11 +80,11 @@ public class TambahDataPegawai extends AppCompatActivity {
         etGolongan.addTextChangedListener(tambahData);
         etTglLahir.addTextChangedListener(tambahData);
         etTglPensiun.addTextChangedListener(tambahData);
-        etJabatan.addTextChangedListener(tambahData);
         etNoHp.addTextChangedListener(tambahData);
         etAlamat.addTextChangedListener(tambahData);
 
         showSpinnerDivisi();
+        showSpinnerJabatan();
 
         DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
@@ -127,10 +139,24 @@ public class TambahDataPegawai extends AppCompatActivity {
                 String sGolongan = etGolongan.getText().toString().trim();
                 String sTglLahir = etTglLahir.getText().toString().trim();
                 String sTglPensiun = etTglPensiun.getText().toString().trim();
-                String sJabatan = etJabatan.getText().toString().trim();
+                String sJabatan = jabatanSpinner.getSelectedItem().toString().trim();
                 String sDivisi = divisiSpinner.getSelectedItem().toString();
                 String sNoHp = etNoHp.getText().toString().trim();
                 String sAlamat = etAlamat.getText().toString().trim();
+                String sGajiPokok = selectDivisi.trim();
+                String sTunjanganGaji = selectJabatan.trim();
+                String sTunjanganKeluarga = "0";
+                String sTunjanganBeras = "0";
+                String sTunjanganKinerja = "0";
+                String sJumlahKotor = "0";
+                String sDapenma = "0";
+                String sJamsostek = "0";
+                String sPPH21 = "0";
+
+
+                double sum = jabatanValue + divisiValue;
+
+                String sGajiPegawai = formatRupiah(sum);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(TambahDataPegawai.this);
                 builder.setTitle(getResources().getString(R.string.add_data))
@@ -139,7 +165,8 @@ public class TambahDataPegawai extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
 
-                                StoreDataPegawai storeDataPegawai = new StoreDataPegawai(sNik, sNamaPegawai, sGolongan, sTglLahir, sTglPensiun, sJabatan, sDivisi, sNoHp, sAlamat);
+                                StoreDataPegawai storeDataPegawai = new StoreDataPegawai(sNik, sNamaPegawai, sGolongan, sTglLahir, sTglPensiun, sJabatan, sDivisi, sNoHp, sAlamat, sGajiPokok, sGajiPegawai, sTunjanganGaji
+                                        , sTunjanganKeluarga, sTunjanganBeras, sTunjanganKinerja, sJumlahKotor, sDapenma, sJamsostek, sPPH21);
 
                                 databaseReference.child("DataPegawai").push().setValue(storeDataPegawai).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
@@ -173,20 +200,81 @@ public class TambahDataPegawai extends AppCompatActivity {
         }
     }
 
+    private String formatRupiah(Double number) {
+        Locale localeid = new Locale("in", "ID");
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(localeid);
+        return formatRupiah.format(number);
+    };
+
     private void showSpinnerDivisi(){
         databaseReference.child("DataBagianDivisi").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 divisiSpin.clear();
                 for (DataSnapshot item : snapshot.getChildren()){
-                    divisiSpin.add(item.child("sBagianDivisi").getValue(String.class));
+                    StoreDivisi storeDivisi = item.getValue(StoreDivisi.class);
+                    divisiSpin.add(storeDivisi.getsBagianDivisi());
+                    divisiData.add(storeDivisi);
+                    //divisiSpin.add(item.child("sBagianDivisi").getValue(String.class));
                 }
-                ArrayAdapter<String > arrayAdapter = new ArrayAdapter<>(TambahDataPegawai.this, R.layout.spinner_divisi, divisiSpin);
+                ArrayAdapter<String > arrayAdapter = new ArrayAdapter<>(TambahDataPegawai.this, R.layout.spinner_data, divisiSpin);
                 divisiSpinner.setAdapter(arrayAdapter);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        divisiSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                divisiValue = 0;
+                selectDivisi = divisiData.get(i).getsGajiPokok();
+                double pDivisi = Integer.parseInt(String.valueOf(selectDivisi));
+                divisiValue += pDivisi;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void showSpinnerJabatan(){
+        databaseReference.child("DataJabatan").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                jabatanSpin.clear();
+                for (DataSnapshot item : snapshot.getChildren()){
+                    StoreJabatan storeJabatan = item.getValue(StoreJabatan.class);
+                    jabatanSpin.add(storeJabatan.getsJabatan());
+                    jabatanData.add(storeJabatan);
+                    //jabatanSpin.add(item.child("sJabatan").getValue(String.class));
+                }
+                ArrayAdapter<String > arrayAdapter = new ArrayAdapter<>(TambahDataPegawai.this, R.layout.spinner_data, jabatanSpin);
+                jabatanSpinner.setAdapter(arrayAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        jabatanSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                jabatanValue = 0;
+                selectJabatan = jabatanData.get(i).getsTunjanganJabatan();
+                double pJabatan = Integer.parseInt(String.valueOf(selectJabatan));
+                jabatanValue += pJabatan;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
             }
         });
@@ -205,8 +293,8 @@ public class TambahDataPegawai extends AppCompatActivity {
             String golongan = etGolongan.getText().toString().trim();
             String tgllahir = etTglLahir.getText().toString().trim();
             String tglpensi = etTglPensiun.getText().toString().trim();
-            String jabatan = etJabatan.getText().toString().trim();
             String divisi = divisiSpinner.getSelectedItem().toString();
+            String jabatan = jabatanSpinner.getSelectedItem().toString();
             String nohp = etNoHp.getText().toString().trim();
             String alamat = etAlamat.getText().toString().trim();
 

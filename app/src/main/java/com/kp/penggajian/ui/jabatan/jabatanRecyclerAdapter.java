@@ -1,4 +1,4 @@
-package com.kp.penggajian.ui.pegawai;
+package com.kp.penggajian.ui.jabatan;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,12 +19,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class PegawaiRecyclerAdapter extends RecyclerView.Adapter<PegawaiRecyclerAdapter.MyViewHolder> implements Filterable {
-    private List<StoreDataPegawai> AllList;
-    public List<StoreDataPegawai> FilteredList;
+public class jabatanRecyclerAdapter extends RecyclerView.Adapter<jabatanRecyclerAdapter.MyViewHolder> implements Filterable {
+    private List<StoreJabatan> AllList;
+    public List<StoreJabatan> FilteredList;
     Context context;
 
-    public PegawaiRecyclerAdapter(List<StoreDataPegawai> mList, Context context) {
+    public jabatanRecyclerAdapter(List<StoreJabatan> mList, Context context) {
         this.context = context;
         this.AllList = mList;
         //this.FilteredList = mList;
@@ -33,25 +33,23 @@ public class PegawaiRecyclerAdapter extends RecyclerView.Adapter<PegawaiRecycler
 
     @NonNull
     @Override
-    public PegawaiRecyclerAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
-        View itemView = inflater.inflate(R.layout.item_pegawai, parent, false);
+        View itemView = inflater.inflate(R.layout.item_jabatan, parent, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PegawaiRecyclerAdapter.MyViewHolder holder, int position) {
-        Collections.sort(AllList, StoreDataPegawai.storeDataPegawaiComparator);
-        StoreDataPegawai storeDataPegawai = AllList.get(position);
-        holder.tv_nik.setText("Nik : " + storeDataPegawai.getsNik());
-        holder.tv_nama.setText("Nama : " + storeDataPegawai.getsNamaPegawai());
-        holder.tv_divisi.setText("Divisi : " + storeDataPegawai.getsDivisi());
-        holder.tv_jabatan.setText("Jabatan : " + storeDataPegawai.getsJabatan());
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        Collections.sort(AllList, StoreJabatan.storejabatanComparator);
+        StoreJabatan storeJabatan = AllList.get(position);
+        holder.tv_Jabatan.setText(storeJabatan.getsJabatan());
+        holder.tv_GajiJabatan.setText(storeJabatan.getsTunjanganJabatan());
         holder.card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, ShowDetailData.class);
-                intent.putExtra("idData", AllList.get(position).getKey());
+                Intent intent = new Intent(context, UpdateJabatan.class);
+                intent.putExtra("idJabatan", AllList.get(position).getKey());
                 context.startActivities(new Intent[]{intent});
             }
         });
@@ -71,13 +69,13 @@ public class PegawaiRecyclerAdapter extends RecyclerView.Adapter<PegawaiRecycler
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
             String searchText = charSequence.toString().toLowerCase();
-            List<StoreDataPegawai> listFiltered = new ArrayList<>();
+            List<StoreJabatan> listFiltered = new ArrayList<>();
 
             if (searchText.isEmpty()) {
                 listFiltered.addAll(FilteredList);
             } else {
-                for (StoreDataPegawai data : FilteredList) {
-                    if (data.getsNamaPegawai().toLowerCase().contains(searchText)) {
+                for (StoreJabatan data : FilteredList) {
+                    if (data.getsJabatan().toLowerCase().contains(searchText)) {
                         listFiltered.add(data);
                     }
                 }
@@ -97,20 +95,16 @@ public class PegawaiRecyclerAdapter extends RecyclerView.Adapter<PegawaiRecycler
     };
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_nik;
-        TextView tv_nama;
-        TextView tv_divisi;
-        TextView tv_jabatan;
+        TextView tv_Jabatan;
+        TextView tv_GajiJabatan;
         CardView card_view;
 
 
         public MyViewHolder(@NonNull View iteView){
             super(iteView);
 
-            tv_nik = iteView.findViewById(R.id.sNik);
-            tv_nama = iteView.findViewById(R.id.sNamaPegawai);
-            tv_divisi = iteView.findViewById(R.id.sJabatanPegawai);
-            tv_jabatan = iteView.findViewById(R.id.sNoHp);
+            tv_Jabatan = iteView.findViewById(R.id.sJabatan);
+            tv_GajiJabatan = iteView.findViewById(R.id.sGajiJabatan);
             card_view = iteView.findViewById(R.id.card_view);
         }
     }

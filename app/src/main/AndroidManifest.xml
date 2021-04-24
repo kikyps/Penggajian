@@ -8,6 +8,12 @@
         android:label="@string/pdam"
         android:supportsRtl="true"
         android:theme="@style/Theme.Penggajian">
+        <activity android:name=".ui.gaji.UpdateGajiPegawai"
+            android:label="@string/gaji_pegawai"/>
+        <activity android:name=".ui.jabatan.UpdateJabatan"
+            android:label="@string/update_jabatan"/>
+        <activity android:name=".ui.jabatan.TambahJabatan"
+            android:label="@string/tambah_jabatan"/>
         <activity android:name=".ui.bagian.UpdateBagianDevisi"
             android:label="@string/edit_divisi"/>
         <activity android:name=".ui.bagian.TambahBagian"

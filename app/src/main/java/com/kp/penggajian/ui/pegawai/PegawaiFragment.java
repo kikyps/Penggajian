@@ -38,7 +38,6 @@ public class PegawaiFragment extends Fragment {
 
     ProgressDialog progressDialog;
 
-    public static SearchView searchView;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -90,10 +89,11 @@ public class PegawaiFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         inflater.inflate(R.menu.pegawai_menu, menu);
-        MenuItem item = menu.findItem(R.id.filter_pegawai);
-        searchView = (SearchView) item.getActionView();
-        searchView.setQueryHint(getResources().getString(R.string.cari_pegawai));
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+         MenuItem itemSearch = menu.findItem(R.id.filter_pegawai);
+        SearchView searchViewPegawai = (SearchView) itemSearch.getActionView();
+        searchViewPegawai.setQueryHint(getResources().getString(R.string.cari_pegawai));
+        searchViewPegawai.setIconified(false);
+        searchViewPegawai.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;

@@ -1,4 +1,4 @@
-package com.kp.penggajian.ui.bagian;
+package com.kp.penggajian.ui.gaji;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -28,11 +28,11 @@ import com.kp.penggajian.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class BagianFragment extends Fragment {
+public class GajiFragment extends Fragment {
 
-    BagianRecyclerAdapter recyclerAdapter;
+    GajiRecyclerAdapter recyclerAdapter;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    ArrayList<StoreDivisi> listDivisi = new ArrayList<>();
+    ArrayList<StoreGaji> listGaji = new ArrayList<>();
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -40,7 +40,7 @@ public class BagianFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_bagian, container, false);
+        View root = inflater.inflate(R.layout.fragment_gaji, container, false);
 
         recyclerView = root.findViewById(R.id.rv_view);
         recyclerView.setHasFixedSize(true);
@@ -49,7 +49,7 @@ public class BagianFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         customProgresBar();
         showData();
-        Collections.sort(listDivisi, StoreDivisi.storeDevisiComparator);
+        Collections.sort(listGaji, StoreGaji.storeGajiComparator);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -87,12 +87,12 @@ public class BagianFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.divisi_menu, menu);
-        MenuItem item = menu.findItem(R.id.filter_divisi);
-        SearchView searchViewBagian = (SearchView) item.getActionView();
-        searchViewBagian.setQueryHint(getResources().getString(R.string.search_divisi_bagian));
-        searchViewBagian.setIconified(false);
-        searchViewBagian.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        inflater.inflate(R.menu.gaji_menu, menu);
+        MenuItem item = menu.findItem(R.id.filter_gaji);
+        SearchView searchViewGaji = (SearchView) item.getActionView();
+        searchViewGaji.setQueryHint(getResources().getString(R.string.search_divisi_bagian));
+        searchViewGaji.setIconified(false);
+        searchViewGaji.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
@@ -104,11 +104,11 @@ public class BagianFragment extends Fragment {
                 return false;
             }
         });
-        searchViewBagian.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+        searchViewGaji.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if (!b){
-                    searchViewBagian.setIconified(true);
+                    searchViewGaji.setIconified(true);
                 }
             }
         });
@@ -116,21 +116,21 @@ public class BagianFragment extends Fragment {
     }
 
     private void showData(){
-        databaseReference.child("DataBagianDivisi").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("DataPegawai").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listDivisi = new ArrayList<>();
+                listGaji = new ArrayList<>();
                 if (snapshot.exists()) {
                     for (DataSnapshot item : snapshot.getChildren()) {
-                        StoreDivisi divisi = item.getValue(StoreDivisi.class);
+                        StoreGaji divisi = item.getValue(StoreGaji.class);
                         divisi.setKey(item.getKey());
-                        listDivisi.add(divisi);
+                        listGaji.add(divisi);
                         progressDialog.dismiss();
                     }
                 }else {
                         progressDialog.dismiss();
                     }
-                recyclerAdapter = new BagianRecyclerAdapter(listDivisi, getContext());
+                recyclerAdapter = new GajiRecyclerAdapter(listGaji, getContext());
                 recyclerView.setAdapter(recyclerAdapter);
             }
 

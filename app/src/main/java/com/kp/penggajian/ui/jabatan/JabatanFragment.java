@@ -1,4 +1,4 @@
-package com.kp.penggajian.ui.bagian;
+package com.kp.penggajian.ui.jabatan;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -28,11 +28,11 @@ import com.kp.penggajian.R;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class BagianFragment extends Fragment {
+public class JabatanFragment extends Fragment {
 
-    BagianRecyclerAdapter recyclerAdapter;
+    jabatanRecyclerAdapter recyclerAdapter;
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-    ArrayList<StoreDivisi> listDivisi = new ArrayList<>();
+    ArrayList<StoreJabatan> listJabatan = new ArrayList<>();
     RecyclerView recyclerView;
     SwipeRefreshLayout swipeRefreshLayout;
 
@@ -40,7 +40,7 @@ public class BagianFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_bagian, container, false);
+        View root = inflater.inflate(R.layout.fragment_jabatan, container, false);
 
         recyclerView = root.findViewById(R.id.rv_view);
         recyclerView.setHasFixedSize(true);
@@ -49,7 +49,7 @@ public class BagianFragment extends Fragment {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         customProgresBar();
         showData();
-        Collections.sort(listDivisi, StoreDivisi.storeDevisiComparator);
+        Collections.sort(listJabatan, StoreJabatan.storejabatanComparator);
 
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -87,10 +87,10 @@ public class BagianFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        inflater.inflate(R.menu.divisi_menu, menu);
-        MenuItem item = menu.findItem(R.id.filter_divisi);
+        inflater.inflate(R.menu.jabatan_menu, menu);
+        MenuItem item = menu.findItem(R.id.filter_jabatan);
         SearchView searchViewBagian = (SearchView) item.getActionView();
-        searchViewBagian.setQueryHint(getResources().getString(R.string.search_divisi_bagian));
+        searchViewBagian.setQueryHint(getResources().getString(R.string.search_jabatan));
         searchViewBagian.setIconified(false);
         searchViewBagian.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -116,21 +116,21 @@ public class BagianFragment extends Fragment {
     }
 
     private void showData(){
-        databaseReference.child("DataBagianDivisi").addValueEventListener(new ValueEventListener() {
+        databaseReference.child("DataJabatan").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                listDivisi = new ArrayList<>();
+                listJabatan = new ArrayList<>();
                 if (snapshot.exists()) {
                     for (DataSnapshot item : snapshot.getChildren()) {
-                        StoreDivisi divisi = item.getValue(StoreDivisi.class);
+                        StoreJabatan divisi = item.getValue(StoreJabatan.class);
                         divisi.setKey(item.getKey());
-                        listDivisi.add(divisi);
+                        listJabatan.add(divisi);
                         progressDialog.dismiss();
                     }
                 }else {
                         progressDialog.dismiss();
                     }
-                recyclerAdapter = new BagianRecyclerAdapter(listDivisi, getContext());
+                recyclerAdapter = new jabatanRecyclerAdapter(listJabatan, getContext());
                 recyclerView.setAdapter(recyclerAdapter);
             }
 

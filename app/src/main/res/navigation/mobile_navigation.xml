@@ -18,14 +18,20 @@
         tools:layout="@layout/fragment_pegawai" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
-        android:name="com.kp.penggajian.ui.slideshow.SlideshowFragment"
-        android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        android:id="@+id/nav_gaji"
+        android:name="com.kp.penggajian.ui.gaji.GajiFragment"
+        android:label="@string/gaji_pegawai"
+        tools:layout="@layout/fragment_gaji" />
 
     <fragment
         android:id="@+id/nav_bagian"
         android:name="com.kp.penggajian.ui.bagian.BagianFragment"
         android:label="Bagian Divisi"
         tools:layout="@layout/fragment_slideshow" />
+
+    <fragment
+        android:id="@+id/nav_jabatan"
+        android:name="com.kp.penggajian.ui.jabatan.JabatanFragment"
+        android:label="Jabatan"
+        tools:layout="@layout/fragment_jabatan" />
 </navigation>

@@ -17,6 +17,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.kp.penggajian.Common.LoginSignUp.RetailerActivity;
 import com.kp.penggajian.ui.bagian.BagianFragment;
 import com.kp.penggajian.ui.bagian.TambahBagian;
+import com.kp.penggajian.ui.jabatan.TambahJabatan;
 import com.kp.penggajian.ui.pegawai.PegawaiFragment;
 import com.kp.penggajian.ui.pegawai.TambahDataPegawai;
 
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_dashboard, R.id.nav_pegawai, R.id.nav_slideshow, R.id.nav_bagian, R.id.nav_jabatan)
+                R.id.nav_dashboard, R.id.nav_pegawai, R.id.nav_gaji, R.id.nav_bagian, R.id.nav_jabatan)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -71,21 +72,23 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                     fab.show();
-                } else if (destination.getId() == R.id.nav_slideshow) {
-                    fab.setImageResource(R.drawable.ic_iconmonstr_pencil_4);
-                    fab.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Snackbar.make(view, "this is action", Snackbar.LENGTH_LONG).show();
-                        }
-                    });
-                    fab.show();
+                } else if (destination.getId() == R.id.nav_gaji) {
+                    fab.hide();
                 } else if (destination.getId() == R.id.nav_bagian) {
                     fab.setImageResource(R.drawable.ic_baseline_add_24);
                     fab.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             startActivity(new Intent(getApplicationContext(), TambahBagian.class));
+                        }
+                    });
+                    fab.show();
+                } else if (destination.getId() == R.id.nav_jabatan) {
+                    fab.setImageResource(R.drawable.ic_baseline_add_24);
+                    fab.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(getApplicationContext(), TambahJabatan.class));
                         }
                     });
                     fab.show();
@@ -144,8 +147,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        PegawaiFragment.searchView.onActionViewCollapsed();
-        BagianFragment.searchView.onActionViewCollapsed();
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed();
             finishAffinity();
