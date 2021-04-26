@@ -45,12 +45,12 @@
                 android:text="@string/login_retail"
                 android:background="@drawable/button_bg"
                 android:layout_weight="1"
-                android:layout_marginRight="10dp"
                 android:textColor="@color/white"/>
             <Button
                 android:id="@+id/signup_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:background="@drawable/button_bg"
                 android:textColor="@color/white"
                 android:text="@string/signgup_retail"

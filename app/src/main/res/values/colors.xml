@@ -9,7 +9,8 @@
     <color name="white">#FFFFFFFF</color>
     <color name="bluesea">#0FFFF7</color>
     <color name="red">#F44336</color>
-    <color name="colorPrimary">#008577</color>
+    <color name="colorPrimary">#04223A</color>
+    <!-- <color name="colorPrimary">#008577</color> -->
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="transparent">#00000000</color>

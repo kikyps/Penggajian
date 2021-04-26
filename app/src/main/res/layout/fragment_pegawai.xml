@@ -7,6 +7,17 @@
     android:orientation="vertical"
     tools:context=".ui.pegawai.PegawaiFragment">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="match_parent"
+            android:layout_height="390dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_no_item_city"
+            android:layout_alignParentBottom="true"/>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiper"
         android:layout_width="match_parent"
@@ -18,5 +29,6 @@
         android:id="@+id/rv_view"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </RelativeLayout>
 
 </RelativeLayout>
