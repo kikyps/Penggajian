@@ -13,7 +13,14 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.R;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -43,10 +50,9 @@ public class PegawaiRecyclerAdapter extends RecyclerView.Adapter<PegawaiRecycler
     public void onBindViewHolder(@NonNull PegawaiRecyclerAdapter.MyViewHolder holder, int position) {
         Collections.sort(AllList, StoreDataPegawai.storeDataPegawaiComparator);
         StoreDataPegawai storeDataPegawai = AllList.get(position);
+
         holder.tv_nik.setText("Nik : " + storeDataPegawai.getsNik());
         holder.tv_nama.setText("Nama : " + storeDataPegawai.getsNamaPegawai());
-        holder.tv_divisi.setText("Divisi : " + storeDataPegawai.getsDivisi());
-        holder.tv_jabatan.setText("Jabatan : " + storeDataPegawai.getsJabatan());
         holder.card_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,8 +105,6 @@ public class PegawaiRecyclerAdapter extends RecyclerView.Adapter<PegawaiRecycler
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView tv_nik;
         TextView tv_nama;
-        TextView tv_divisi;
-        TextView tv_jabatan;
         CardView card_view;
 
 
@@ -109,8 +113,6 @@ public class PegawaiRecyclerAdapter extends RecyclerView.Adapter<PegawaiRecycler
 
             tv_nik = iteView.findViewById(R.id.sNik);
             tv_nama = iteView.findViewById(R.id.sNamaPegawai);
-            tv_divisi = iteView.findViewById(R.id.sJabatanPegawai);
-            tv_jabatan = iteView.findViewById(R.id.sNoHp);
             card_view = iteView.findViewById(R.id.card_view);
         }
     }

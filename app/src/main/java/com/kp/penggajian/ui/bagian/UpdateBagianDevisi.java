@@ -23,6 +23,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.R;
+import com.kp.penggajian.ui.gaji.StoreGaji;
+
+import java.util.Map;
 
 public class UpdateBagianDevisi extends AppCompatActivity {
 
@@ -140,6 +143,7 @@ public class UpdateBagianDevisi extends AppCompatActivity {
                             String sGajiPokok = etGajiPokok.getText().toString();
 
                             StoreDivisi storeDivisi = new StoreDivisi(sDivisi, sGajiPokok);
+
                             databaseReference.child(iddivisi).setValue(storeDivisi).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {

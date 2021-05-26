@@ -21,11 +21,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.R;
 
+import org.jetbrains.annotations.NotNull;
+
 public class ShowDetailData extends AppCompatActivity {
 
-    TextView labelName, mynik, myname, mygolongan, mytgllahir, mytglpensiun, myjabatan, mydivisi, mynohp, myalamat;
+    TextView labelName, mynik, myname, mygolongan, mytgllahir, mytglpensiun, mydivisi, myjabatan, mynohp, myalamat;
     DatabaseReference databaseReference;
-    String iddata, Nik, NamaPegawai, Golongan, TglLahir, TglPensiun, Jabatan, Divisi, Nohp, Alamat;
+    String iddata, Nik, NamaPegawai, Golongan, TglLahir, TglPensiun, Divisi, Nohp, Alamat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +60,51 @@ public class ShowDetailData extends AppCompatActivity {
                     Golongan = snapshot.child("sGolongan").getValue().toString();
                     TglLahir = snapshot.child("sTglLahir").getValue().toString();
                     TglPensiun = snapshot.child("sTglPensiun").getValue().toString();
-                    Jabatan = snapshot.child("sJabatan").getValue().toString();
                     Divisi = snapshot.child("sDivisi").getValue().toString();
                     Nohp = snapshot.child("sNoHp").getValue().toString();
                     Alamat = snapshot.child("sAlamat").getValue().toString();
+
+                    databaseReference.orderByKey().equalTo(iddata).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                String divisi = dataSnapshot.child("sDivisi").getValue().toString();
+                                DatabaseReference dataDivisi = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataBagianDivisi").child(divisi);
+                                dataDivisi.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        String divisi = snapshot.child("sBagianDivisi").getValue().toString();
+                                        myjabatan.setText("Divisi : \n" + divisi);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                        throw error.toException();
+                                    }
+                                });
+
+                                String jabatan = dataSnapshot.child("sJabatan").getValue().toString();
+                                DatabaseReference dataJabatan = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataJabatan").child(jabatan);
+                                dataJabatan.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        String jabatan = snapshot.child("sJabatan").getValue().toString();
+                                        mydivisi.setText("Jabatan : \n" + jabatan);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                        throw error.toException();
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+                    });
 
                     labelName.setText(NamaPegawai);
                     mynik.setText("Nik : \n" + Nik);
@@ -69,8 +112,6 @@ public class ShowDetailData extends AppCompatActivity {
                     mygolongan.setText("Golongan : \n" + Golongan);
                     mytgllahir.setText("Tanggal Lahir : \n" + TglLahir);
                     mytglpensiun.setText("Tanggal Pensiun : \n" + TglPensiun);
-                    myjabatan.setText("Jabatan : \n" + Jabatan);
-                    mydivisi.setText("Divisi : \n" + Divisi);
                     mynohp.setText("No Handphone : \n" + Nohp);
                     myalamat.setText("Alamat : \n" + Alamat);
                 }

@@ -25,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.MainActivity;
 import com.kp.penggajian.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -37,7 +39,6 @@ public class PegawaiFragment extends Fragment {
     SwipeRefreshLayout swipeRefreshLayout;
 
     ProgressDialog progressDialog;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

@@ -6,7 +6,18 @@ import java.util.Map;
 
 public class StoreGaji {
 
-    String key, sNamaPegawai, sGajiPokok, sGajiPegawai, sTunjanganJabatan, sTunjanganKeluarga, sTunjanganBeras, sTunjanganKinerja, sJumlahKotor, sDapenma, sJamSostek, sPPH21;
+    String key;
+    String sNamaPegawai;
+
+    String sGajiPegawai;
+    String sTunjanganJabatan;
+    String sTunjanganKeluarga;
+    String sTunjanganBeras;
+    String sTunjanganKinerja;
+    String sJumlahKotor;
+    String sDapenma;
+    String sJamSostek;
+    String sPPH21;
 
     public String getsTunjanganJabatan() {
         return sTunjanganJabatan;
@@ -128,13 +139,5 @@ public class StoreGaji {
 
     public void setsNamaPegawai(String sNamaPegawai) {
         this.sNamaPegawai = sNamaPegawai;
-    }
-
-    public String getsGajiPokok() {
-        return sGajiPokok;
-    }
-
-    public void setsGajiPokok(String sGajiPokok) {
-        this.sGajiPokok = sGajiPokok;
     }
 }

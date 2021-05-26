@@ -2,7 +2,6 @@ package com.kp.penggajian.ui.gaji;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.UserHandle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -23,8 +22,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.NumberFormat;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
@@ -37,7 +37,8 @@ public class UpdateGajiPegawai extends AppCompatActivity {
 
 
     DatabaseReference databaseReference;
-    String idgaji, NamaPegawai, GajiPokok, GajiPegawai, TunjanganJabatan, TunjanganKeluarga, TunjanganBeras, TunjanganKinerja, JumlahKotor, Dapenma, JamSostek, PPH21;
+    String idgaji, NamaPegawai, GajiPegawai, TunjanganJabatan, TunjanganKeluarga, TunjanganBeras
+            , TunjanganKinerja, JumlahKotor, Dapenma, JamSostek, PPH21;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +74,7 @@ public class UpdateGajiPegawai extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()){
                     NamaPegawai = snapshot.child("sNamaPegawai").getValue().toString();
-                    GajiPokok = snapshot.child("sGajiPokok").getValue().toString();
                     GajiPegawai = snapshot.child("sGajiPegawai").getValue().toString();
-                    TunjanganJabatan = snapshot.child("sTunjanganJabatan").getValue().toString();
                     TunjanganKeluarga = snapshot.child("sTunjanganKeluarga").getValue().toString();
                     TunjanganBeras = snapshot.child("sTunjanganBeras").getValue().toString();
                     TunjanganKinerja = snapshot.child("sTunjanganKinerja").getValue().toString();
@@ -84,10 +83,50 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                     JamSostek = snapshot.child("sJamsostek").getValue().toString();
                     PPH21 = snapshot.child("sPPH21").getValue().toString();
 
+                    databaseReference.orderByKey().equalTo(idgaji).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                String gajiPokok = dataSnapshot.child("sDivisi").getValue().toString();
+                                DatabaseReference dataGaji = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataBagianDivisi").child(gajiPokok);
+                                dataGaji.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        String gaji = snapshot.child("sGajiPokok").getValue().toString();
+                                        etGajiPokok.setText(gaji);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                        throw error.toException();
+                                    }
+                                });
+
+                                String tunjangan = dataSnapshot.child("sJabatan").getValue().toString();
+                                DatabaseReference dataTunjangan = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataJabatan").child(tunjangan);
+                                dataTunjangan.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        String jabatan = snapshot.child("sTunjanganJabatan").getValue().toString();
+                                        etTunjanganJabatan.setText(jabatan);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                        throw error.toException();
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+                        }
+                    });
+
                     etNamaPegawai.setText(NamaPegawai);
-                    etGajiPokok.setText(GajiPokok);
                     etGajiPegawai.setText(GajiPegawai);
-                    etTunjanganJabatan.setText(TunjanganJabatan);
                     etTunjanganKeluarga.setText(TunjanganKeluarga);
                     etTunjanganBeras.setText(TunjanganBeras);
                     etTunjanganKinerja.setText(TunjanganKinerja);
@@ -104,6 +143,7 @@ public class UpdateGajiPegawai extends AppCompatActivity {
 
             }
         });
+
 
 
         // add back arrow to toolbar

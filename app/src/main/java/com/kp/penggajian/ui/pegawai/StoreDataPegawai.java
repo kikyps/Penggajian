@@ -1,5 +1,8 @@
 package com.kp.penggajian.ui.pegawai;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Comparator;
 
 public class StoreDataPegawai {
@@ -22,7 +25,6 @@ public class StoreDataPegawai {
     String sJabatan;
     String sNoHp;
     String sAlamat;
-    String sGajiPokok;
     String sGajiPegawai;
     String sTunjanganJabatan;
     String sTunjanganKeluarga;
@@ -32,22 +34,6 @@ public class StoreDataPegawai {
     String sDapenma;
     String sJamsostek;
     String sPPH21;
-
-    public String getsGajiPokok() {
-        return sGajiPokok;
-    }
-
-    public void setsGajiPokok(String sGajiPokok) {
-        this.sGajiPokok = sGajiPokok;
-    }
-
-    public String getsTunjanganJabatan() {
-        return sTunjanganJabatan;
-    }
-
-    public void setsTunjanganJabatan(String sTunjanganJabatan) {
-        this.sTunjanganJabatan = sTunjanganJabatan;
-    }
 
     public String getsGajiPegawai() {
         return sGajiPegawai;
@@ -68,7 +54,7 @@ public class StoreDataPegawai {
     public StoreDataPegawai(){
     }
 
-    public StoreDataPegawai(String sNik, String sNamaPegawai, String sGolongan, String sTglLahir, String sTglPensiun, String sDivisi, String sJabatan, String sNoHp, String sAlamat, String sGajiPokok, String sGajiPegawai, String sTunjanganJabatan, String sTunjanganKeluarga, String sTunjanganBeras, String sTunjanganKinerja, String sJumlahKotor, String sDapenma, String sJamsostek, String sPPH21) {
+    public StoreDataPegawai(String sNik, String sNamaPegawai, String sGolongan, String sTglLahir, String sTglPensiun, String sDivisi, String sJabatan, String sNoHp, String sAlamat, String sGajiPegawai, String sTunjanganKeluarga, String sTunjanganBeras, String sTunjanganKinerja, String sJumlahKotor, String sDapenma, String sJamsostek, String sPPH21) {
         this.sNik = sNik;
         this.sNamaPegawai = sNamaPegawai;
         this.sGolongan = sGolongan;
@@ -78,9 +64,7 @@ public class StoreDataPegawai {
         this.sJabatan = sJabatan;
         this.sNoHp = sNoHp;
         this.sAlamat = sAlamat;
-        this.sGajiPokok = sGajiPokok;
         this.sGajiPegawai = sGajiPegawai;
-        this.sTunjanganJabatan = sTunjanganJabatan;
         this.sTunjanganKeluarga = sTunjanganKeluarga;
         this.sTunjanganBeras = sTunjanganBeras;
         this.sTunjanganKinerja = sTunjanganKinerja;
