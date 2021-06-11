@@ -66,6 +66,28 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/lDivisi_Pegawai"
+                        android:hint="@string/divisi"
+                        android:textColorHint="@color/black"
+                        android:layout_marginTop="10dp"
+                        app:endIconMode="none"
+                        app:endIconTint="@color/black"
+                        app:hintTextColor="@color/black">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/divisi_pgawai"
+                            android:focusable="false"
+                            android:inputType="number"
+                            android:textColor="@color/black" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:id="@+id/lGajiPokok"
                         android:hint="@string/gaji_pokok"
                         android:textColorHint="@color/black"

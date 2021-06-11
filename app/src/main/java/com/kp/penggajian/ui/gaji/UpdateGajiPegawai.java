@@ -30,14 +30,14 @@ import java.util.Map;
 
 public class UpdateGajiPegawai extends AppCompatActivity {
 
-    TextInputEditText etNamaPegawai, etGajiPokok, etGajiPegawai, etTunjanganJabatan, etTunjanganKeluarga
+    TextInputEditText etNamaPegawai, etGajiPokok, etDivisi, etGajiPegawai, etTunjanganJabatan, etTunjanganKeluarga
             , etTunjanganBeras, etTunjanganKinerja, etJumlahKotor, etDapenma, etJamsostek, etpph;
 
     TextInputLayout lNamaPegawai, lGajiPokok, lGajiPegawai, lTunjanganJabatan;
 
 
     DatabaseReference databaseReference;
-    String idgaji, NamaPegawai, GajiPegawai, TunjanganJabatan, TunjanganKeluarga, TunjanganBeras
+    String idgaji, NamaPegawai, divisi, jabatan, GajiPegawai, TunjanganKeluarga, TunjanganBeras
             , TunjanganKinerja, JumlahKotor, Dapenma, JamSostek, PPH21;
 
     @Override
@@ -50,6 +50,7 @@ public class UpdateGajiPegawai extends AppCompatActivity {
         databaseReference = FirebaseDatabase.getInstance().getReference().child("DataPegawai");
 
         etNamaPegawai = findViewById(R.id.nama_pegawai);
+        etDivisi = findViewById(R.id.divisi_pgawai);
         etGajiPokok = findViewById(R.id.gaji_pokok);
         etTunjanganJabatan = findViewById(R.id.tunjangan_jabatan);
         etGajiPegawai = findViewById(R.id.gaji_pegawai);
@@ -87,6 +88,35 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+                                String mydivisi = dataSnapshot.child("sDivisi").getValue().toString();
+                                DatabaseReference dataDivisi = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataBagianDivisi").child(mydivisi);
+                                dataDivisi.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        divisi = snapshot.child("sBagianDivisi").getValue().toString();
+                                        etDivisi.setText(divisi);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                        throw error.toException();
+                                    }
+                                });
+
+                                String myjabatan = dataSnapshot.child("sJabatan").getValue().toString();
+                                DatabaseReference dataJabatan = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataJabatan").child(myjabatan);
+                                dataJabatan.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                                        jabatan = snapshot.child("sJabatan").getValue().toString();
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull @NotNull DatabaseError error) {
+                                        throw error.toException();
+                                    }
+                                });
+
                                 String gajiPokok = dataSnapshot.child("sDivisi").getValue().toString();
                                 DatabaseReference dataGaji = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataBagianDivisi").child(gajiPokok);
                                 dataGaji.addListenerForSingleValueEvent(new ValueEventListener() {
