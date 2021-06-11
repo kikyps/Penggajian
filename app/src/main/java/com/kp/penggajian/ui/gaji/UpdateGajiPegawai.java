@@ -37,7 +37,7 @@ public class UpdateGajiPegawai extends AppCompatActivity {
 
 
     DatabaseReference databaseReference;
-    String idgaji, NamaPegawai, divisi, jabatan, GajiPegawai, TunjanganKeluarga, TunjanganBeras
+    String idgaji, NamaPegawai, divisi, jabatan, GajiPegawai, gaji, TunjanganJabatan, TunjanganKeluarga, TunjanganBeras
             , TunjanganKinerja, JumlahKotor, Dapenma, JamSostek, PPH21;
 
     @Override
@@ -122,7 +122,7 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                                 dataGaji.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                        String gaji = snapshot.child("sGajiPokok").getValue().toString();
+                                        gaji = snapshot.child("sGajiPokok").getValue().toString();
                                         etGajiPokok.setText(gaji);
                                     }
 
@@ -137,8 +137,8 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                                 dataTunjangan.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                                        String jabatan = snapshot.child("sTunjanganJabatan").getValue().toString();
-                                        etTunjanganJabatan.setText(jabatan);
+                                        TunjanganJabatan = snapshot.child("sTunjanganJabatan").getValue().toString();
+                                        etTunjanganJabatan.setText(TunjanganJabatan);
                                     }
 
                                     @Override
@@ -198,6 +198,8 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                 return true;
             case R.id.update_gaji:
                 updateDivisi();
+                return true;
+            case R.id.print_gaji:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

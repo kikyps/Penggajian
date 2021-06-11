@@ -86,4 +86,5 @@
     <string name="total_gaji">Total Gaji</string>
     <string name="tunjangan_keluarga">Tunjangan Keluarga</string>
     <string name="jumlah_kotor">Jumlah Kotor</string>
+    <string name="print_gaji">Print Gaji</string>
 </resources>

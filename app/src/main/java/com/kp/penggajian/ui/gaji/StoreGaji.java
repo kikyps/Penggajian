@@ -8,7 +8,6 @@ public class StoreGaji {
 
     String key;
     String sNamaPegawai;
-
     String sGajiPegawai;
     String sTunjanganJabatan;
     String sTunjanganKeluarga;
