@@ -87,4 +87,5 @@
     <string name="tunjangan_keluarga">Tunjangan Keluarga</string>
     <string name="jumlah_kotor">Jumlah Kotor</string>
     <string name="print_gaji">Print Gaji</string>
+    <string name="enable_network">Please connect to the internet to proceed further!</string>
 </resources>

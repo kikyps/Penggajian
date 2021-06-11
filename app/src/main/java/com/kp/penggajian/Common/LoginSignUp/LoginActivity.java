@@ -3,9 +3,15 @@ package com.kp.penggajian.Common.LoginSignUp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -60,43 +66,84 @@ public class LoginActivity extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                progressDialog.setMessage("Please Wait...");
-                progressDialog.setCancelable(false);
-                progressDialog.show();
                 if (!validateUsername() | !validatePassword()) {
                     progressDialog.dismiss();
                     return;
                 } else {
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                    databaseReference.child("login").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String input1 = usernameValid.getEditText().getText().toString();
-                            String input2 = passwordValid.getEditText().getText().toString();
-
-                            if (snapshot.child(input1).exists()) {
-                                if (snapshot.child(input1).child("password").getValue(String.class).equals(input2)) {
-                                    Preferences.setDataLogin(LoginActivity.this, true);
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(getApplicationContext(), getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(getApplicationContext(), getString(R.string.unknown_data), Toast.LENGTH_SHORT).show();
-                            }
-                            progressDialog.dismiss();
-                        }
-
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    turnLogin(this);
                 }
             }
         });
+    }
+
+    private void turnLogin(View.OnClickListener onClickListener) {
+        if (!isConnected(this)){
+            dialogNetwork();
+            return;
+        } else {
+            progressDialog.setMessage("Please Wait...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
+            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+            databaseReference.child("login").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String input1 = usernameValid.getEditText().getText().toString();
+                    String input2 = passwordValid.getEditText().getText().toString();
+
+                    if (snapshot.child(input1).exists()) {
+                        if (snapshot.child(input1).child("password").getValue(String.class).equals(input2)) {
+                            Preferences.setDataLogin(LoginActivity.this, true);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), getString(R.string.wrong_password), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), getString(R.string.unknown_data), Toast.LENGTH_SHORT).show();
+                    }
+                    progressDialog.dismiss();
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    dialogNetwork();
+                }
+            });
+        }
+    }
+
+
+    private void dialogNetwork() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+        builder.setMessage(getResources().getString(R.string.enable_network))
+                .setTitle("No Internet!")
+                .setCancelable(false)
+                .setPositiveButton("Connect", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(Settings.ACTION_DATA_USAGE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                }).show();
+    }
+
+    private boolean isConnected(LoginActivity loginActivity) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) loginActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo wifiConn = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        NetworkInfo mobileConn = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if ((wifiConn != null && wifiConn.isConnected()) || (mobileConn != null && mobileConn.isConnected())){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private boolean validateUsername(){
