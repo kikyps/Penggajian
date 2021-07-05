@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.app.StatusBarManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.view.View;
@@ -26,6 +28,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.kp.penggajian.MainActivity;
 import com.kp.penggajian.Preferences;
 import com.kp.penggajian.R;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -78,7 +83,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void turnLogin(View.OnClickListener onClickListener) {
         if (!isConnected(this)){
-            dialogNetwork();
+            dialogNetwork(this);
             return;
         } else {
             progressDialog.setMessage("Please Wait...");
@@ -108,14 +113,14 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    dialogNetwork();
+
                 }
             });
         }
     }
 
 
-    private void dialogNetwork() {
+    private void dialogNetwork(LoginActivity loginActivity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
         builder.setMessage(getResources().getString(R.string.enable_network))
                 .setTitle("No Internet!")
