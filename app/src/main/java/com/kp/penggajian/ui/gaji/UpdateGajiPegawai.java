@@ -1,6 +1,9 @@
 package com.kp.penggajian.ui.gaji;
 
+import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -8,6 +11,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.graphics.pdf.PdfDocument;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.Menu;
@@ -18,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +34,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kp.penggajian.BuildConfig;
 import com.kp.penggajian.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -402,9 +409,9 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                 paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                 paint.setColor(Color.BLACK);
                 paint.setTextSize(60);
-                canvas.drawText("Total Gaji", 160, 1940, paint);
-                canvas.drawText("=", 500, 1940, paint);
-                canvas.drawText(String.valueOf(totalGajiPegawai), 600, 1940, paint);
+                canvas.drawText("Total Gaji", 140, 1940, paint);
+                canvas.drawText("=", 480, 1940, paint);
+                canvas.drawText(String.valueOf(totalGajiPegawai), 580, 1940, paint);
 
 //                canvas.drawLine(550, 1460, pageWidth - 20, 1460, paint);
 //                canvas.drawText("Sub Total", 700, 1250, paint);
@@ -435,7 +442,48 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                     pdfDocument.writeTo(new FileOutputStream(f));
 
                     pdfDocument.close();
-                    Toast.makeText(UpdateGajiPegawai.this, "PDF sudah dibuat", Toast.LENGTH_LONG).show();
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UpdateGajiPegawai.this);
+                    builder.setTitle("Success")
+                            .setMessage("Slip gaji berhasil di print, anda dapat melihat dan membagikan slip gaji")
+                            .setPositiveButton("Buka", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    if(f.exists()) {
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW);
+                                        browserIntent.setDataAndType(getUriFromFile(f), "application/pdf");
+                                        browserIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|
+                                                Intent.FLAG_ACTIVITY_NO_HISTORY);
+                                        startActivity(browserIntent);
+                                    }
+                                    else
+                                        Toast.makeText(getApplicationContext(), "File path is incorrect." , Toast.LENGTH_LONG).show();
+                                }
+                            }).setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    }).setNeutralButton("Share", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if(f.exists()) {
+                                Uri uri = FileProvider.getUriForFile(getApplicationContext(),
+                                        getPackageName() + ".provider", f);
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.setType("application/pdf");
+                                shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|
+                                        Intent.FLAG_ACTIVITY_NEW_TASK);
+                                shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                                startActivity(Intent.createChooser(shareIntent, "Share it"));
+                            }
+                            else
+                                Toast.makeText(getApplicationContext(), "File path is incorrect." , Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.setCancelable(true);
+                    alertDialog.show();
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -448,6 +496,14 @@ public class UpdateGajiPegawai extends AppCompatActivity {
 
             }
         });
+    }
+
+    private Uri getUriFromFile(File file){
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            return Uri.fromFile(file);
+        }else {
+            return FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", file);
+        }
     }
 
     private boolean validateDivisi() {
