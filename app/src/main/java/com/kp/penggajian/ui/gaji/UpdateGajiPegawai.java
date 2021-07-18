@@ -1,7 +1,15 @@
 package com.kp.penggajian.ui.gaji;
 
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
+import android.graphics.pdf.PdfDocument;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -24,7 +32,13 @@ import com.kp.penggajian.R;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
 
@@ -35,10 +49,13 @@ public class UpdateGajiPegawai extends AppCompatActivity {
 
     TextInputLayout lNamaPegawai, lGajiPokok, lGajiPegawai, lTunjanganJabatan;
 
-
     DatabaseReference databaseReference;
     String idgaji, NamaPegawai, divisi, jabatan, GajiPegawai, gaji, TunjanganJabatan, TunjanganKeluarga, TunjanganBeras
             , TunjanganKinerja, JumlahKotor, Dapenma, JamSostek, PPH21;
+
+    Bitmap bitmap, scaleBitmap;
+    int pageWidth = 1200;
+    DateFormat dateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +106,7 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
                             for (DataSnapshot dataSnapshot : snapshot.getChildren()){
                                 String mydivisi = dataSnapshot.child("sDivisi").getValue().toString();
-                                DatabaseReference dataDivisi = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataBagianDivisi").child(mydivisi);
+                                DatabaseReference dataDivisi = FirebaseDatabase.getInstance().getReference().child("DataBagianDivisi").child(mydivisi);
                                 dataDivisi.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -104,7 +121,7 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                                 });
 
                                 String myjabatan = dataSnapshot.child("sJabatan").getValue().toString();
-                                DatabaseReference dataJabatan = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataJabatan").child(myjabatan);
+                                DatabaseReference dataJabatan = FirebaseDatabase.getInstance().getReference().child("DataJabatan").child(myjabatan);
                                 dataJabatan.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -118,7 +135,7 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                                 });
 
                                 String gajiPokok = dataSnapshot.child("sDivisi").getValue().toString();
-                                DatabaseReference dataGaji = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataBagianDivisi").child(gajiPokok);
+                                DatabaseReference dataGaji = FirebaseDatabase.getInstance().getReference().child("DataBagianDivisi").child(gajiPokok);
                                 dataGaji.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -133,7 +150,7 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                                 });
 
                                 String tunjangan = dataSnapshot.child("sJabatan").getValue().toString();
-                                DatabaseReference dataTunjangan = (DatabaseReference) FirebaseDatabase.getInstance().getReference().child("DataJabatan").child(tunjangan);
+                                DatabaseReference dataTunjangan = FirebaseDatabase.getInstance().getReference().child("DataJabatan").child(tunjangan);
                                 dataTunjangan.addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
@@ -200,13 +217,141 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                 updateDivisi();
                 return true;
             case R.id.print_gaji:
+                PrintGaji();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
+    private void PrintGaji() {
+        databaseReference.child(idgaji).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                String Nik = snapshot.child("sNik").getValue().toString();
+                String NamaPeg = snapshot.child("sNamaPegawai").getValue().toString();
+                String Gol = snapshot.child("sGolongan").getValue().toString();
+                String TglLahir = snapshot.child("sTglLahir").getValue().toString();
+                String TglPensiun = snapshot.child("sTglPensiun").getValue().toString();
+                String NoHp = snapshot.child("sNoHp").getValue().toString();
+                String Alamat = snapshot.child("sAlamat").getValue().toString();
 
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pdamtirta);
+                scaleBitmap = Bitmap.createScaledBitmap(bitmap, 1200, 518, false);
+
+                PdfDocument pdfDocument = new PdfDocument();
+                Paint paint = new Paint();
+                Paint titlePaint = new Paint();
+
+                PdfDocument.PageInfo pageInfo
+                        = new PdfDocument.PageInfo.Builder(1200, 2010, 1).create();
+                PdfDocument.Page page = pdfDocument.startPage(pageInfo);
+
+                Canvas canvas = page.getCanvas();
+                canvas.drawBitmap(scaleBitmap, 0, 0, paint);
+
+                titlePaint.setTextAlign(Paint.Align.CENTER);
+                titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                titlePaint.setColor(Color.BLACK);
+                titlePaint.setTextSize(70);
+                canvas.drawText("Slip Gaji", pageWidth / 2, 590, titlePaint);
+
+                paint.setTextAlign(Paint.Align.LEFT);
+                paint.setColor(Color.BLACK);
+                paint.setTextSize(40f);
+                canvas.drawText("NIK : " + Nik, 20, 690, paint);
+                canvas.drawText("Nama Pegawai : " + NamaPegawai, 20, 750, paint);
+                canvas.drawText("No.Telp : " + NoHp, 20, 810, paint);
+                canvas.drawText("Divisi : " + divisi, 20, 870, paint);
+                canvas.drawText("Jabatan : " + jabatan, 20, 930, paint);
+
+                paint.setTextAlign(Paint.Align.RIGHT);
+                paint.setColor(Color.BLACK);
+                paint.setTextSize(40f);
+                dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                canvas.drawText("Tanggal : " + dateFormat.format(new Date().getTime()), pageWidth - 20, 690, paint);
+
+                dateFormat = new SimpleDateFormat("HH:mm");
+                canvas.drawText("Pukul : " + dateFormat.format(new Date().getTime()), pageWidth - 20, 750, paint);
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(2);
+                canvas.drawRect(20, 980, pageWidth - 20, 1060, paint);
+
+                paint.setTextAlign(Paint.Align.LEFT);
+                paint.setStyle(Paint.Style.FILL);
+                canvas.drawText("No.", 40, 1030, paint);
+                canvas.drawText("Menu Pesanan", 200, 1030, paint);
+                canvas.drawText("Harga", 700, 1030, paint);
+                canvas.drawText("Jumlah", 900, 1030, paint);
+                canvas.drawText("Total", 1050, 1030, paint);
+
+                canvas.drawLine(180, 990, 180, 1050, paint);
+                canvas.drawLine(680, 990, 680, 1050, paint);
+                canvas.drawLine(880, 990, 880, 1050, paint);
+                canvas.drawLine(1030, 990, 1030, 1050, paint);
+
+//                float subTotal = totalOne + totalTwo;
+//                canvas.drawLine(400, 1200, pageWidth - 20, 1200, paint);
+//                canvas.drawText("Sub Total", 700, 1250, paint);
+//                canvas.drawText(":", 900, 1250, paint);
+//                paint.setTextAlign(Paint.Align.RIGHT);
+//                canvas.drawText(String.valueOf(subTotal), pageWidth - 40, 1250, paint);
+//
+//                paint.setTextAlign(Paint.Align.LEFT);
+//                canvas.drawText("PPN (10%)", 700, 1300, paint);
+//                canvas.drawText(":", 900, 1300, paint);
+//                paint.setTextAlign(Paint.Align.RIGHT);
+//                canvas.drawText(String.valueOf(subTotal * 10 / 100), pageWidth - 40, 1300, paint);
+//                paint.setTextAlign(Paint.Align.LEFT);
+//
+//                paint.setColor(Color.rgb(247, 147, 30));
+//                canvas.drawRect(680, 1350, pageWidth - 20, 1450, paint);
+//
+//                paint.setColor(Color.BLACK);
+//                paint.setTextSize(50f);
+//                paint.setTextAlign(Paint.Align.LEFT);
+//                canvas.drawText("Total", 700, 1415, paint);
+//                paint.setTextAlign(Paint.Align.RIGHT);
+//                canvas.drawText(String.valueOf(subTotal + (subTotal * 10 / 100)), pageWidth - 40, 1415, paint);
+
+                pdfDocument.finishPage(page);
+
+                try {
+                    String rootPath = Environment.getExternalStorageDirectory()
+                            .getAbsolutePath() + "/PDAM/";
+
+                    File root = new File(rootPath);
+                    if (!root.exists()) {
+                        root.mkdirs();
+                    }
+                    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+                    Date now = new Date();
+                    String dateNow = "_" + formatter.format(now);
+
+                    File f = new File(rootPath + NamaPegawai + dateNow + ".pdf");
+                    if (f.exists()) {
+                        f.delete();
+                    }
+                    f.createNewFile();
+
+                    pdfDocument.writeTo(new FileOutputStream(f));
+
+                    pdfDocument.close();
+                    Toast.makeText(UpdateGajiPegawai.this, "PDF sudah dibuat", Toast.LENGTH_LONG).show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(UpdateGajiPegawai.this, "Error!!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+    }
 
     private boolean validateDivisi() {
         String val = lNamaPegawai.getEditText().getText().toString();
