@@ -260,11 +260,11 @@ public class UpdateGajiPegawai extends AppCompatActivity {
 
                 paint.setTextAlign(Paint.Align.LEFT);
                 paint.setTextSize(22f);
-                canvas.drawText("JL. Jend.Sudirman, No.146, Tangkerang, Cinta Raja, Kec. Sail, Kota Pekanbaru, Riau 28121", 300, 160, paint);
+                canvas.drawText("JL. Jend.Sudirman, No.146, Tangkerang, Cinta Raja, Kec. Sail, Kota Pekanbaru, Riau 28121", 295, 160, paint);
 
                 linePDAM.setStyle(Paint.Style.STROKE);
                 linePDAM.setStrokeWidth(6);
-                canvas.drawLine(300, 180, pageWidth - 40, 180, linePDAM);
+                canvas.drawLine(295, 180, pageWidth - 40, 180, linePDAM);
 
                 titlePaint.setTextAlign(Paint.Align.CENTER);
                 titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
@@ -395,13 +395,16 @@ public class UpdateGajiPegawai extends AppCompatActivity {
 
                 String totalGajiPegawai = formatRupiah(totalGaji);
 
+                paint.setColor(Color.rgb(115, 204, 255));
+                canvas.drawRect(110, 1860, pageWidth - 120, 1970, paint);
+
                 paint.setTextAlign(Paint.Align.LEFT);
                 paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                 paint.setColor(Color.BLACK);
                 paint.setTextSize(60);
-                canvas.drawText("Total Gaji", 140, 1940, paint);
-                canvas.drawText("=", 480, 1940, paint);
-                canvas.drawText(String.valueOf(totalGajiPegawai), 580, 1940, paint);
+                canvas.drawText("Total Gaji", 160, 1940, paint);
+                canvas.drawText("=", 500, 1940, paint);
+                canvas.drawText(String.valueOf(totalGajiPegawai), 600, 1940, paint);
 
 //                canvas.drawLine(550, 1460, pageWidth - 20, 1460, paint);
 //                canvas.drawText("Sub Total", 700, 1250, paint);
