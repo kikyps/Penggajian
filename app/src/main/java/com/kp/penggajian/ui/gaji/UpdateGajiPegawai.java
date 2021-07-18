@@ -236,11 +236,13 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                 String NoHp = snapshot.child("sNoHp").getValue().toString();
                 String Alamat = snapshot.child("sAlamat").getValue().toString();
 
-                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.pdamtirta);
-                scaleBitmap = Bitmap.createScaledBitmap(bitmap, 1200, 518, false);
+                bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.water_icon);
+                scaleBitmap = Bitmap.createScaledBitmap(bitmap, 238, 218, false);
 
                 PdfDocument pdfDocument = new PdfDocument();
                 Paint paint = new Paint();
+                Paint paint1 = new Paint();
+                Paint linePDAM = new Paint();
                 Paint titlePaint = new Paint();
 
                 PdfDocument.PageInfo pageInfo
@@ -248,72 +250,164 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                 PdfDocument.Page page = pdfDocument.startPage(pageInfo);
 
                 Canvas canvas = page.getCanvas();
-                canvas.drawBitmap(scaleBitmap, 0, 0, paint);
+                canvas.drawBitmap(scaleBitmap, 20, 20, paint);
+
+                titlePaint.setTextAlign(Paint.Align.LEFT);
+                titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                titlePaint.setColor(Color.BLACK);
+                titlePaint.setTextSize(47);
+                canvas.drawText("PDAM TIRTA SIAK KOTA PEKANBARU", 320 , 100, titlePaint);
+
+                paint.setTextAlign(Paint.Align.LEFT);
+                paint.setTextSize(22f);
+                canvas.drawText("JL. Jend.Sudirman, No.146, Tangkerang, Cinta Raja, Kec. Sail, Kota Pekanbaru, Riau 28121", 300, 160, paint);
+
+                linePDAM.setStyle(Paint.Style.STROKE);
+                linePDAM.setStrokeWidth(6);
+                canvas.drawLine(300, 180, pageWidth - 40, 180, linePDAM);
 
                 titlePaint.setTextAlign(Paint.Align.CENTER);
                 titlePaint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                 titlePaint.setColor(Color.BLACK);
                 titlePaint.setTextSize(70);
-                canvas.drawText("Slip Gaji", pageWidth / 2, 590, titlePaint);
+                canvas.drawText("SLIP GAJI", pageWidth / 2, 320, titlePaint);
 
                 paint.setTextAlign(Paint.Align.LEFT);
+                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
                 paint.setColor(Color.BLACK);
                 paint.setTextSize(40f);
-                canvas.drawText("NIK : " + Nik, 20, 690, paint);
-                canvas.drawText("Nama Pegawai : " + NamaPegawai, 20, 750, paint);
-                canvas.drawText("No.Telp : " + NoHp, 20, 810, paint);
-                canvas.drawText("Divisi : " + divisi, 20, 870, paint);
-                canvas.drawText("Jabatan : " + jabatan, 20, 930, paint);
+                canvas.drawText("NIK : " + Nik, 20, 420, paint);
+                canvas.drawText("Nama Pegawai : " + NamaPegawai, 20, 480, paint);
+                canvas.drawText("No.Telp : " + NoHp, 20, 540, paint);
+                canvas.drawText("Divisi : " + divisi, 20, 600, paint);
+                canvas.drawText("Jabatan : " + jabatan, 20, 660, paint);
 
                 paint.setTextAlign(Paint.Align.RIGHT);
                 paint.setColor(Color.BLACK);
                 paint.setTextSize(40f);
                 dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-                canvas.drawText("Tanggal : " + dateFormat.format(new Date().getTime()), pageWidth - 20, 690, paint);
+                canvas.drawText("Tanggal : " + dateFormat.format(new Date().getTime()), pageWidth - 20, 420, paint);
 
                 dateFormat = new SimpleDateFormat("HH:mm");
-                canvas.drawText("Pukul : " + dateFormat.format(new Date().getTime()), pageWidth - 20, 750, paint);
+                canvas.drawText("Pukul : " + dateFormat.format(new Date().getTime()), pageWidth - 20, 480, paint);
+
+                paint1.setTextAlign(Paint.Align.LEFT);
+                paint1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                paint1.setColor(Color.BLACK);
+                paint1.setTextSize(45);
+                canvas.drawText("PENGHASILAN", 20, 750, paint1);
+                canvas.drawText("POTONGAN", 20, 1360, paint1);
+
+                paint1.setStyle(Paint.Style.STROKE);
+                paint1.setStrokeWidth(3);
+                canvas.drawLine(20, 760, 330, 760, paint1);
+                canvas.drawLine(20, 1370, 260, 1370, paint1);
 
                 paint.setStyle(Paint.Style.STROKE);
                 paint.setStrokeWidth(2);
-                canvas.drawRect(20, 980, pageWidth - 20, 1060, paint);
+                canvas.drawRect(20, 780, pageWidth - 20, 1280, paint);
+
+                paint.setTextAlign(Paint.Align.LEFT);
+                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+                paint.setStyle(Paint.Style.FILL);
+                canvas.drawText("No.", 40, 830, paint);
+                canvas.drawText("Keterangan", 160, 830, paint);
+                canvas.drawText("Nominal", 780, 830, paint);
+
+                canvas.drawLine(20, 860, pageWidth - 20, 860, paint);
+                canvas.drawLine(130, 790, 130, 850, paint);
+                canvas.drawLine(750, 790, 750, 850, paint);
+                canvas.drawLine(750, 1210, 750, 1270, paint);
+                canvas.drawLine(20, 1200, pageWidth - 20, 1200, paint);
+
+                canvas.drawText("1.", 40, 920, paint);
+                canvas.drawText("Gaji Pokok", 160, 920, paint);
+                canvas.drawText(gaji, 780, 920, paint);
+
+                canvas.drawText("2.", 40, 980, paint);
+                canvas.drawText("Tunjangan Jabatan", 160, 980, paint);
+                canvas.drawText(TunjanganJabatan, 780, 980, paint);
+
+                canvas.drawText("3.", 40, 1040, paint);
+                canvas.drawText("Tunjangan Keluarga", 160, 1040, paint);
+                canvas.drawText(TunjanganKeluarga, 780, 1040, paint);
+
+                canvas.drawText("4.", 40, 1100, paint);
+                canvas.drawText("Tunjangan Beras", 160, 1100, paint);
+                canvas.drawText(TunjanganBeras, 780, 1100, paint);
+
+                canvas.drawText("5.", 40, 1160, paint);
+                canvas.drawText("Tunjangan Kinerja", 160, 1160, paint);
+                canvas.drawText(TunjanganKinerja, 780, 1160, paint);
+
+                int gajiPe = Integer.parseInt(gaji);
+                int tunJab = Integer.parseInt(TunjanganJabatan);
+                int tunKel = Integer.parseInt(TunjanganKeluarga);
+                int tunBer = Integer.parseInt(TunjanganBeras);
+                int tunKin = Integer.parseInt(TunjanganKinerja);
+                int totalPenghasilan = gajiPe + tunJab + tunKel + tunBer + tunKin;
+
+                canvas.drawText("Total Penghasilan", 160, 1250, paint);
+                canvas.drawText(String.valueOf(totalPenghasilan), 780, 1250, paint);
+
+                paint.setStyle(Paint.Style.STROKE);
+                paint.setStrokeWidth(2);
+                canvas.drawRect(20, 1390, pageWidth - 20, 1820, paint);
 
                 paint.setTextAlign(Paint.Align.LEFT);
                 paint.setStyle(Paint.Style.FILL);
-                canvas.drawText("No.", 40, 1030, paint);
-                canvas.drawText("Menu Pesanan", 200, 1030, paint);
-                canvas.drawText("Harga", 700, 1030, paint);
-                canvas.drawText("Jumlah", 900, 1030, paint);
-                canvas.drawText("Total", 1050, 1030, paint);
+                canvas.drawText("No.", 40, 1440, paint);
+                canvas.drawText("Keterangan", 160, 1440, paint);
+                canvas.drawText("Nominal", 780, 1440, paint);
 
-                canvas.drawLine(180, 990, 180, 1050, paint);
-                canvas.drawLine(680, 990, 680, 1050, paint);
-                canvas.drawLine(880, 990, 880, 1050, paint);
-                canvas.drawLine(1030, 990, 1030, 1050, paint);
+                canvas.drawLine(20, 1470, pageWidth - 20, 1470, paint);
+                canvas.drawLine(130, 1400, 130, 1460, paint);
+                canvas.drawLine(750, 1400, 750, 1460, paint);
+                canvas.drawLine(750, 1750, 750, 1810, paint);
+                canvas.drawLine(20, 1740, pageWidth - 20, 1740, paint);
 
-//                float subTotal = totalOne + totalTwo;
-//                canvas.drawLine(400, 1200, pageWidth - 20, 1200, paint);
+                canvas.drawText("1.", 40, 1530, paint);
+                canvas.drawText("Jumlah Kotor", 160, 1530, paint);
+                canvas.drawText(JumlahKotor, 780, 1530, paint);
+
+                canvas.drawText("2.", 40, 1590, paint);
+                canvas.drawText("Dapenma", 160, 1590, paint);
+                canvas.drawText(Dapenma, 780, 1590, paint);
+
+                canvas.drawText("3.", 40, 1650, paint);
+                canvas.drawText("Jamsostek", 160, 1650, paint);
+                canvas.drawText(JamSostek, 780, 1650, paint);
+
+                canvas.drawText("4.", 40, 1710, paint);
+                canvas.drawText("PPH 21", 160, 1710, paint);
+                canvas.drawText(JamSostek, 780, 1710, paint);
+
+                int jumKotor = Integer.parseInt(JumlahKotor);
+                int dapenma = Integer.parseInt(Dapenma);
+                int jamSostek = Integer.parseInt(JamSostek);
+                int pph = Integer.parseInt(PPH21);
+                int totalPotongan = jumKotor + dapenma + jamSostek + pph;
+
+                canvas.drawText("Total Potongan", 160, 1790, paint);
+                canvas.drawText(String.valueOf(totalPotongan), 780, 1790, paint);
+
+                double totalGaji = totalPenghasilan - totalPotongan;
+
+                String totalGajiPegawai = formatRupiah(totalGaji);
+
+                paint.setTextAlign(Paint.Align.LEFT);
+                paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+                paint.setColor(Color.BLACK);
+                paint.setTextSize(60);
+                canvas.drawText("Total Gaji", 140, 1940, paint);
+                canvas.drawText("=", 480, 1940, paint);
+                canvas.drawText(String.valueOf(totalGajiPegawai), 580, 1940, paint);
+
+//                canvas.drawLine(550, 1460, pageWidth - 20, 1460, paint);
 //                canvas.drawText("Sub Total", 700, 1250, paint);
 //                canvas.drawText(":", 900, 1250, paint);
 //                paint.setTextAlign(Paint.Align.RIGHT);
 //                canvas.drawText(String.valueOf(subTotal), pageWidth - 40, 1250, paint);
-//
-//                paint.setTextAlign(Paint.Align.LEFT);
-//                canvas.drawText("PPN (10%)", 700, 1300, paint);
-//                canvas.drawText(":", 900, 1300, paint);
-//                paint.setTextAlign(Paint.Align.RIGHT);
-//                canvas.drawText(String.valueOf(subTotal * 10 / 100), pageWidth - 40, 1300, paint);
-//                paint.setTextAlign(Paint.Align.LEFT);
-//
-//                paint.setColor(Color.rgb(247, 147, 30));
-//                canvas.drawRect(680, 1350, pageWidth - 20, 1450, paint);
-//
-//                paint.setColor(Color.BLACK);
-//                paint.setTextSize(50f);
-//                paint.setTextAlign(Paint.Align.LEFT);
-//                canvas.drawText("Total", 700, 1415, paint);
-//                paint.setTextAlign(Paint.Align.RIGHT);
-//                canvas.drawText(String.valueOf(subTotal + (subTotal * 10 / 100)), pageWidth - 40, 1415, paint);
 
                 pdfDocument.finishPage(page);
 
