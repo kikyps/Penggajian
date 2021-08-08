@@ -1,14 +1,16 @@
 package com.kp.penggajian.ui.pegawai;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.system.StructTimespec;
+import android.provider.ContactsContract;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
@@ -17,8 +19,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -47,6 +57,7 @@ public class TambahDataPegawai extends AppCompatActivity {
     final Calendar myCalendar = Calendar.getInstance();
     TextInputEditText etNik, etNamaPegawai, etGolongan, etTglLahir, etTglPensiun, etNoHp, etAlamat;
     Button btnTambah;
+    ImageButton btnContact;
     DatabaseReference dataJabatan, dataDivisi, databaseReference = FirebaseDatabase.getInstance().getReference();
 
     private Spinner divisiSpinner, jabatanSpinner;
@@ -59,6 +70,10 @@ public class TambahDataPegawai extends AppCompatActivity {
 
     int jabatanValue, divisiValue;
 
+    private static final int CONTACT_PERMISSION_CODE = 1;
+    private static final int CONTACT_PICK_CODE = 2;
+
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +82,7 @@ public class TambahDataPegawai extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         btnTambah = findViewById(R.id.tambah_data);
+        btnContact = findViewById(R.id.contact_picker);
         etNik = findViewById(R.id.nik_pegawai);
         etNamaPegawai = findViewById(R.id.nama_pegawai);
         etGolongan = findViewById(R.id.golongan);
@@ -134,64 +150,70 @@ public class TambahDataPegawai extends AppCompatActivity {
             }
         });
 
-        btnTambah.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String sNik = etNik.getText().toString().trim();
-                String sNamaPegawai = etNamaPegawai.getText().toString().trim();
-                String sGolongan = etGolongan.getText().toString().trim();
-                String sTglLahir = etTglLahir.getText().toString().trim();
-                String sTglPensiun = etTglPensiun.getText().toString().trim();
-                String sDivisi = keyDivisi.trim();
-                String sJabatan = keyJabatan.trim();
-                String sNoHp = etNoHp.getText().toString().trim();
-                String sAlamat = etAlamat.getText().toString().trim();
-                String sTunjanganKeluarga = "0";
-                String sTunjanganBeras = "0";
-                String sTunjanganKinerja = "0";
-                String sJumlahKotor = "0";
-                String sDapenma = "0";
-                String sJamsostek = "0";
-                String sPPH21 = "0";
-
-                double sum = divisiValue + jabatanValue;
-
-                String sGajiPegawai = formatRupiah(sum);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(TambahDataPegawai.this);
-                builder.setTitle(getResources().getString(R.string.add_data))
-                        .setMessage(getResources().getString(R.string.add_pegawai_message))
-                        .setPositiveButton(getResources().getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                                StoreDataPegawai storeDataPegawai = new StoreDataPegawai(sNik, sNamaPegawai, sGolongan, sTglLahir
-                                        , sTglPensiun, sDivisi, sJabatan, sNoHp, sAlamat, sGajiPegawai, sTunjanganKeluarga
-                                        , sTunjanganBeras, sTunjanganKinerja, sJumlahKotor, sDapenma, sJamsostek, sPPH21);
-
-                                databaseReference.child("DataPegawai").push().setValue(storeDataPegawai).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.add_pegawai_success), Toast.LENGTH_SHORT).show();
-                                        finish();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.failed_data_upload), Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-                        })
-                        .setNegativeButton(getResources().getString(R.string.no_confirm), new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.cancel();
-                            }
-                        });
-                builder.setCancelable(true);
-                builder.show();
+        btnContact.setOnClickListener(v -> {
+            if (checkContactPermission()){
+                pickContact();
+            } else {
+                //Permission Not Granted Request
+                requestContactPermission();
             }
+        });
+
+        btnTambah.setOnClickListener(view -> {
+            String sNik = etNik.getText().toString().trim();
+            String sNamaPegawai = etNamaPegawai.getText().toString().trim();
+            String sGolongan = etGolongan.getText().toString().trim();
+            String sTglLahir = etTglLahir.getText().toString().trim();
+            String sTglPensiun = etTglPensiun.getText().toString().trim();
+            String sDivisi = keyDivisi.trim();
+            String sJabatan = keyJabatan.trim();
+            String sNoHp = etNoHp.getText().toString().trim();
+            String sAlamat = etAlamat.getText().toString().trim();
+            String sTunjanganKeluarga = "0";
+            String sTunjanganBeras = "0";
+            String sTunjanganKinerja = "0";
+            String sJumlahKotor = "0";
+            String sDapenma = "0";
+            String sJamsostek = "0";
+            String sPPH21 = "0";
+
+            double sum = divisiValue + jabatanValue;
+
+            String sGajiPegawai = formatRupiah(sum);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(TambahDataPegawai.this);
+            builder.setTitle(getResources().getString(R.string.add_data))
+                    .setMessage(getResources().getString(R.string.add_pegawai_message))
+                    .setPositiveButton(getResources().getString(R.string.yes_confirm), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                            StoreDataPegawai storeDataPegawai = new StoreDataPegawai(sNik, sNamaPegawai, sGolongan, sTglLahir
+                                    , sTglPensiun, sDivisi, sJabatan, sNoHp, sAlamat, sGajiPegawai, sTunjanganKeluarga
+                                    , sTunjanganBeras, sTunjanganKinerja, sJumlahKotor, sDapenma, sJamsostek, sPPH21);
+
+                            databaseReference.child("DataPegawai").push().setValue(storeDataPegawai).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.add_pegawai_success), Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.failed_data_upload), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    })
+                    .setNegativeButton(getResources().getString(R.string.no_confirm), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.cancel();
+                        }
+                    });
+            builder.setCancelable(true);
+            builder.show();
         });
 
         // add back arrow to toolbar
@@ -199,6 +221,23 @@ public class TambahDataPegawai extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
+    }
+
+    private void pickContact(){
+        Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+        startActivityForResult(intent, CONTACT_PICK_CODE);
+    }
+
+    private boolean checkContactPermission(){
+        //Check if contact permission was granted or not
+        boolean result = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) == (PackageManager.PERMISSION_GRANTED);
+        return result;
+    }
+
+    private void requestContactPermission(){
+        //Permisson to request read contact
+        String[] permission = {Manifest.permission.READ_CONTACTS};
+        ActivityCompat.requestPermissions(this, permission, CONTACT_PERMISSION_CODE);
     }
 
     private String formatRupiah(Double number) {
@@ -361,6 +400,64 @@ public class TambahDataPegawai extends AppCompatActivity {
 
         etTglLahir.setText(sdf.format(today));
         etTglPensiun.setText(sdf.format(expiredDate));
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //Handle Permission request result
+        if (requestCode == CONTACT_PERMISSION_CODE){
+            if (grantResults.length >0 && grantResults[0] == PackageManager.PERMISSION_GRANTED);
+            //Permission Granted can pick contact now
+            pickContact();
+        } else {
+            //Permission denied
+            Toast.makeText(TambahDataPegawai.this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        //Handle intent result
+        if (resultCode == RESULT_OK){
+            //Calls when user click a contact from list
+            if (requestCode == CONTACT_PICK_CODE){
+                Cursor cursor1, cursor2;
+
+                //Get data from intent
+                Uri uri = data.getData();
+
+                cursor1 = getContentResolver().query(uri, null, null, null, null);
+
+                if (cursor1.moveToFirst()){
+                    //get contact details
+                    String contactId = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts._ID));
+                    String contactName = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+                    String contactThumbnail = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI));
+                    String idResult = cursor1.getString(cursor1.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER));
+                    int idResultHold = Integer.parseInt(idResult);
+
+                    if (idResultHold == 1){
+                        cursor2 = getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                null,
+                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = " + contactId,
+                                null,
+                                null);
+
+                        while (cursor2.moveToNext()){
+                            // get phone number
+                            String contactNumber = cursor2.getString(cursor2.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                            etNoHp.setText(contactNumber);
+                        }
+                        cursor2.close();
+                    }
+                    cursor1.close();
+                }
+            }
+        } else {
+            //Call when user click back button | dont pick contact
+        }
     }
 
     @Override

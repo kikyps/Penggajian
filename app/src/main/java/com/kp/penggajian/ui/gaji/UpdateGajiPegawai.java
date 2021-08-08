@@ -1,7 +1,5 @@
 package com.kp.penggajian.ui.gaji;
 
-import android.content.ActivityNotFoundException;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -34,14 +32,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.kp.penggajian.BuildConfig;
 import com.kp.penggajian.R;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
@@ -412,12 +408,6 @@ public class UpdateGajiPegawai extends AppCompatActivity {
                 canvas.drawText("Total Gaji", 140, 1940, paint);
                 canvas.drawText("=", 480, 1940, paint);
                 canvas.drawText(String.valueOf(totalGajiPegawai), 580, 1940, paint);
-
-//                canvas.drawLine(550, 1460, pageWidth - 20, 1460, paint);
-//                canvas.drawText("Sub Total", 700, 1250, paint);
-//                canvas.drawText(":", 900, 1250, paint);
-//                paint.setTextAlign(Paint.Align.RIGHT);
-//                canvas.drawText(String.valueOf(subTotal), pageWidth - 40, 1250, paint);
 
                 pdfDocument.finishPage(page);
 
